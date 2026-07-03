@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print & Craft Co. - Creator Studio</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Amatic+SC:wght@700&family=Bebas+Neue&family=Caveat:wght@600&family=Cinzel:wght@600&family=Cormorant+Garamond:wght@600&family=Dancing+Script:wght@600&family=Great+Vibes&family=Lato:wght@400;700&family=Lora:ital,wght@0,500;1,500&family=Merriweather:wght@400;700&family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&family=Oswald:wght@500&family=Pacifico&family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@400;600&family=Righteous&family=Roboto:wght@400;700&family=Satisfy&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="fontPreloader">
+        <span style="font-family: 'Montserrat';">.</span><span style="font-family: 'Poppins';">.</span><span style="font-family: 'Lato';">.</span><span style="font-family: 'Open Sans';">.</span><span style="font-family: 'Roboto';">.</span><span style="font-family: 'Playfair Display';">.</span><span style="font-family: 'Cinzel';">.</span><span style="font-family: 'Lora';">.</span><span style="font-family: 'Merriweather';">.</span><span style="font-family: 'Cormorant Garamond';">.</span><span style="font-family: 'Great Vibes';">.</span><span style="font-family: 'Pacifico';">.</span><span style="font-family: 'Dancing Script';">.</span><span style="font-family: 'Satisfy';">.</span><span style="font-family: 'Caveat';">.</span><span style="font-family: 'Bebas Neue';">.</span><span style="font-family: 'Oswald';">.</span><span style="font-family: 'Abril Fatface';">.</span><span style="font-family: 'Righteous';">.</span><span style="font-family: 'Amatic SC';">.</span>
+    </div>
+
+    <div id="introModal" class="intro-takeover">
+        <div class="intro-content-top">
+            <h1 class="intro-title">The Creator Studio.</h1>
+            <p class="intro-subtitle">Select your canvas, upload your artwork, and let us handle the rest. Real-time rendering, pixel-perfect printing.</p>
+        </div>
+        <div class="intro-content-bottom">
+            <input type="email" id="introEmail" placeholder="Enter your best email..." required>
+            <div class="intro-actions-row">
+                <button id="skipEmailBtn" class="btn-secondary dark-sec">Design without saving</button>
+                <button id="startDesignBtn" class="btn-gradient">Start Designing & Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="studio-layout">
+
+        <div class="top-right-actions">
+            <button id="btnTopSave" class="btn-action-top">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Save Design
+            </button>
+            <button id="btnFullscreen" class="btn-action-top">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                Full Screen
+            </button>
+        </div>
+
+        <aside class="sidebar">
+            <div class="brand-header">
+                <h2>Creator Studio</h2>
+            </div>
+
+            <div id="step1" class="wizard-step active">
+                <div class="step-indicator">Step 1 of 3</div>
+                <h3 class="step-title">Choose Canvas</h3>
+                <p class="step-instructions">Instructions: Select the product you would like to design.</p>
+                <div class="control-group">
+                    <select id="productSelector">
+                        <option value="30oz">30oz Tumbler</option>
+                        <option value="20oz">20oz Tumbler</option>
+                        <option value="20ozSkinny">20oz Skinny Tumbler</option>
+                    </select>
+                </div>
+                <div class="step-nav"><button id="btnNextStep2" class="btn-primary">Next: Background</button></div>
+            </div>
+
+            <div id="step2" class="wizard-step">
+                <div class="step-indicator">Step 2 of 3</div>
+                <h3 class="step-title">Set Background</h3>
+                <p class="step-instructions">Instructions: Choose an option to upload your own art, select one of our curated backgrounds, or search one from Pixabay.</p>
+                
+                <div class="control-group" style="margin-bottom: 10px;">
+                    <input type="file" id="bgUploader" accept="image/png, image/jpeg" style="display: none;">
+                    <button class="btn-tool" onclick="document.getElementById('bgUploader').click()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        Upload Custom Background
+                    </button>
+                    <button class="btn-tool" id="removeBgBtn" style="color: #ef4444; background: #2a1111; border-color: #5a2222;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        Remove Background
+                    </button>
+                </div>
+                <div class="divider"></div>
+
+                <div class="control-group">
+                    <label>PrintNCraft Backgrounds</label>
+                    <select id="localBgSelector">
+                        <option value="">Select from Library...</option>
+                        <option value="assets/backgrounds/floral1.png">Spring Floral Wrap</option>
+                        <option value="assets/backgrounds/grunge1.png">Dark Grunge</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Search Pixabay</label>
+                    <div class="search-box">
+                        <input type="text" id="bgSearchInput" placeholder="Search ideas...">
+                        <button id="bgSearchBtn">Go</button>
+                    </div>
+                    <div id="bgSearchResults" class="image-grid"></div>
+                    <div id="bgPagination" class="pagination-controls">
+                        <button id="bgPrevBtn" class="btn-page">Prev</button>
+                        <span id="bgPageDisplay" class="page-info">Page 1</span>
+                        <button id="bgNextBtn" class="btn-page">Next</button>
+                    </div>
+                </div>
+
+                <div class="step-nav">
+                    <button id="btnPrevStep1" class="btn-secondary">Back</button>
+                    <button id="btnNextStep3" class="btn-primary">Next: Design</button>
+                </div>
+            </div>
+
+            <div id="step3" class="wizard-step">
+                <div class="step-indicator">Step 3 of 3</div>
+                <h3 class="step-title">Design Product</h3>
+                <p class="step-instructions">Instructions: Add text, upload images, select from our original art and search Pixabay to make your design. Check your art and make sure it stays inside of the red area. Once you are ready, click on approve and buy!</p>
+                
+                <button class="btn-tool" id="addTextBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+                    Add Custom Text
+                </button>
+                
+                <input type="file" id="imageUploader" accept="image/png, image/jpeg" style="display: none;">
+                <button class="btn-tool" onclick="document.getElementById('imageUploader').click()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    Upload My Own Image
+                </button>
+
+                <div class="divider"></div>
+
+                <div class="control-group">
+                    <label>PrintNCraft Graphics</label>
+                    <select id="localElementSelector">
+                        <option value="">Select from Library...</option>
+                        <option value="assets/elements/logo.png">Our Logo</option>
+                        <option value="assets/elements/badge.png">Premium Badge</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Search Pixabay Graphics</label>
+                    <div class="search-box">
+                        <input type="text" id="elementSearchInput" placeholder="Search vectors...">
+                        <button id="elementSearchBtn">Go</button>
+                    </div>
+                    <div id="elementSearchResults" class="image-grid"></div>
+                    <div id="elPagination" class="pagination-controls">
+                        <button id="elPrevBtn" class="btn-page">Prev</button>
+                        <span id="elPageDisplay" class="page-info">Page 1</span>
+                        <button id="elNextBtn" class="btn-page">Next</button>
+                    </div>
+                </div>
+
+                <div class="action-footer">
+                    <button id="btnPrevStep2" class="btn-secondary" style="border-color: #555; color: #fff;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+                        Back to Background
+                    </button>
+                    <button class="btn-secondary" id="btnShareModal" style="border-color: #3b82f6; color: #3b82f6;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        Share & Get $5 Off
+                    </button>
+                    <button class="btn-primary" id="saveAndBuyBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                        Approve & Buy
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="workspace">
+            <div class="view-toggles">
+                <button id="modeDesign">Blueprint View</button>
+                <button id="modePreview" class="active">Realistic Preview</button>
+            </div>
+
+            <div class="canvas-container-wrapper" id="canvasWrapper">
+                <canvas id="studioCanvas"></canvas>
+                <img id="blueprintOverlay" class="blueprint-overlay" src="" style="display: none;" alt="Blueprint Lines">
+                <img id="mockupShading" class="mockup-overlay" crossorigin="anonymous" src="" alt="Tumbler Shading">
+                
+                <img id="previewWatermark" class="preview-watermark" crossorigin="anonymous" src="https://assets.cdn.filesafe.space/Gom39K4Ph1omNjbKNE3e/media/69cbdbfc1176898be375bbe2.png" alt="PrintNCraft Watermark">
+            </div>
+
+            <div id="editToolbar" class="floating-toolbar" style="display: none;">
+                
+                <div id="textControls" class="float-controls" style="display: none;">
+                    <select id="fontSelector">
+                        <optgroup label="Modern & Clean">
+                            <option value="'Montserrat', sans-serif" style="font-family: 'Montserrat';">Montserrat</option>
+                            <option value="'Poppins', sans-serif" style="font-family: 'Poppins';">Poppins</option>
+                            <option value="'Lato', sans-serif" style="font-family: 'Lato';">Lato</option>
+                            <option value="'Open Sans', sans-serif" style="font-family: 'Open Sans';">Open Sans</option>
+                            <option value="'Roboto', sans-serif" style="font-family: 'Roboto';">Roboto</option>
+                        </optgroup>
+                        <optgroup label="Elegant & Classic">
+                            <option value="'Playfair Display', serif" style="font-family: 'Playfair Display';">Playfair Display</option>
+                            <option value="'Cinzel', serif" style="font-family: 'Cinzel';">Cinzel</option>
+                            <option value="'Lora', serif" style="font-family: 'Lora';">Lora</option>
+                            <option value="'Merriweather', serif" style="font-family: 'Merriweather';">Merriweather</option>
+                            <option value="'Cormorant Garamond', serif" style="font-family: 'Cormorant Garamond';">Cormorant</option>
+                        </optgroup>
+                        <optgroup label="Wedding & Script">
+                            <option value="'Great Vibes', cursive" style="font-family: 'Great Vibes';">Great Vibes</option>
+                            <option value="'Pacifico', cursive" style="font-family: 'Pacifico';">Pacifico</option>
+                            <option value="'Dancing Script', cursive" style="font-family: 'Dancing Script';">Dancing Script</option>
+                            <option value="'Satisfy', cursive" style="font-family: 'Satisfy';">Satisfy</option>
+                            <option value="'Caveat', cursive" style="font-family: 'Caveat';">Caveat</option>
+                        </optgroup>
+                        <optgroup label="Bold & Impact">
+                            <option value="'Bebas Neue', sans-serif" style="font-family: 'Bebas Neue';">Bebas Neue</option>
+                            <option value="'Oswald', sans-serif" style="font-family: 'Oswald';">Oswald</option>
+                            <option value="'Abril Fatface', serif" style="font-family: 'Abril Fatface';">Abril Fatface</option>
+                            <option value="'Righteous', cursive" style="font-family: 'Righteous';">Righteous</option>
+                            <option value="'Amatic SC', cursive" style="font-family: 'Amatic SC';">Amatic SC</option>
+                        </optgroup>
+                    </select>
+                    
+                    <input type="color" id="textColorPicker" class="circle-picker" value="#111111" title="Text Color">
+                    
+                    <div class="text-effects">
+                        <label title="Add Outline">
+                            <input type="checkbox" id="outlineToggle"> Outline
+                            <input type="color" id="outlineColorPicker" class="circle-picker small" value="#000000" title="Outline Color">
+                        </label>
+                    </div>
+                </div>
+
+                <div id="imageControls" class="float-controls" style="display: none;">
+                    <select id="imageShapeSelector">
+                        <option value="original">Original Shape</option>
+                        <option value="oval">Crop to Oval</option>
+                        <option value="rounded">Rounded Square</option>
+                        <option value="star">Crop to Star</option>
+                    </select>
+                </div>
+
+                <div class="toolbar-divider" id="controlsDivider"></div>
+
+                <div id="sharedControls" class="float-controls" style="display: none; padding-right: 10px;">
+                    <div class="text-effects">
+                        <label title="Add Drop Shadow"><input type="checkbox" id="shadowToggle"> Shadow</label>
+                    </div>
+                </div>
+
+                <div class="toolbar-divider"></div>
+
+                <div class="float-layer-controls">
+                    <button id="layerFrontBtn" class="btn-icon" title="Move to Top"><svg viewBox="0 0 24 24"><path d="M4 4h16v2H4zm8 3l4 4h-3v9h-2v-9H8z"/></svg></button>
+                    <button id="layerUpBtn" class="btn-icon" title="Move Up"><svg viewBox="0 0 24 24"><path d="M12 8l4 4h-3v8h-2v-8H8z"/></svg></button>
+                    <button id="layerDownBtn" class="btn-icon" title="Move Down"><svg viewBox="0 0 24 24"><path d="M12 16l-4-4h3V4h2v8h3z"/></svg></button>
+                    <button id="layerBackBtn" class="btn-icon" title="Move to Bottom"><svg viewBox="0 0 24 24"><path d="M4 20h16v-2H4zm8-3l-4-4h3V4h2v9h3z"/></svg></button>
+                </div>
+                
+                <div class="toolbar-divider"></div>
+                <button id="deleteBtn" class="btn-icon danger" title="Delete"><svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+            </div>
+        </main>
+    </div>
+
+    <div id="saveModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <h3>Save your design?</h3>
+            <p>Don't lose your masterpiece! Save your design, get a link to return to it later.</p>
+            <input type="email" id="saveEmailInput" placeholder="Enter email to save..." style="display: none; margin-bottom: 10px;">
+            <p class="disclaimer" style="margin-top: 0; margin-bottom: 25px;">We will email you a secure link to your design so you can pick up exactly where you left off when you are ready.</p>
+            <div class="modal-actions">
+                <button id="confirmSaveBtn" class="btn-primary">Yes, Save My Design</button>
+                <button id="continueEditingBtn" class="btn-secondary">No, Keep Editing</button>
+                <button id="savePlaceOrderBtn" class="btn-primary" style="background: #22c55e;">Place Order</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="shareModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box" id="shareStep1">
+            <h3>Share & Get $5 Off!</h3>
+            <p>Post your design to Instagram with our tags to instantly receive your discount code.</p>
+            <div style="position: relative; margin-bottom: 15px;">
+                <textarea id="shareCaption" style="width: 100%; height: 110px; padding: 10px; border-radius: 8px; border: 1px solid #444; font-family: inherit; font-size: 0.9rem; background: #222; color: #fff;" readonly>I just designed this custom tumbler at @PrintNCraftCo using the Design Studio! Let me know what you think 👇 #PrintNCraft #CustomTumbler #MyDesign</textarea>
+                <button id="copyCaptionBtn" style="position: absolute; bottom: 10px; right: 10px; background: #333; border: 1px solid #555; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; color: #fff;">Copy Text</button>
+            </div>
+            <div class="modal-actions">
+                <button id="triggerShareBtn" class="btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                    Download & Share Design
+                </button>
+                <button id="closeShareBtn" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+        <div class="modal-box" id="shareStep2" style="display: none;">
+            <h3>🎉 Congrats!</h3>
+            <p>You unlocked an additional $5 off your order!</p>
+            <div style="background: #222; padding: 15px; border: 2px dashed #C8B6FF; border-radius: 8px; font-size: 1.2rem; font-weight: bold; letter-spacing: 1px; margin-bottom: 20px; color: #fff; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                <span id="discountCodeText">DesignStudioMade2026</span>
+                <button id="copyCodeBtn" style="background: transparent; border: none; cursor: pointer; color: #C8B6FF;" title="Copy Code">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+            </div>
+            <button id="closeSuccessBtn" class="btn-primary">Awesome, thanks!</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
