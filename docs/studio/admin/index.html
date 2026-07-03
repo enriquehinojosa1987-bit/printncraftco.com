@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Studio Library Admin</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #1A1A1A; color: #fff; min-height: 100vh; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 30px 20px 80px; }
+h1 { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, #FFD1B3, #FAD0E6, #C8B6FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
+.sub { color: #999; font-size: 0.9rem; margin-bottom: 24px; }
+.card { background: #222; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+input[type="text"], input[type="password"] { width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; background: #1a1a1a; color: #fff; font-size: 0.95rem; outline: none; }
+input:focus { border-color: #C8B6FF; }
+button { cursor: pointer; font-weight: 700; border-radius: 8px; border: 1px solid #444; background: #1a1a1a; color: #fff; padding: 10px 16px; font-size: 0.85rem; transition: all 0.15s; }
+button:hover { border-color: #C8B6FF; }
+button.primary { background: linear-gradient(135deg, #FFD1B3, #FAD0E6, #C8B6FF); color: #111; border: none; }
+button.danger { color: #ef4444; border-color: #5a2222; background: #2a1111; }
+button:disabled { opacity: 0.4; cursor: default; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.tabs { display: flex; gap: 8px; margin-bottom: 20px; }
+.tab { flex: 1; text-align: center; padding: 12px; }
+.tab.active { background: linear-gradient(135deg, #FFD1B3, #FAD0E6, #C8B6FF); color: #111; border: none; }
+.cat-list { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.cat-chip { padding: 8px 14px; border-radius: 20px; }
+.cat-chip.active { background: #3a3357; border-color: #C8B6FF; color: #C8B6FF; }
+.cat-chip.hidden-item { opacity: 0.5; text-decoration: line-through; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+.tile { background: #1a1a1a; border: 1px solid #333; border-radius: 10px; overflow: hidden; }
+.tile img { width: 100%; aspect-ratio: 1/1; object-fit: contain; background: repeating-conic-gradient(#2a2a2a 0% 25%, #222 0% 50%) 0 0 / 16px 16px; display: block; }
+.tile .meta { padding: 8px; font-size: 0.72rem; color: #bbb; word-break: break-all; }
+.tile .actions { display: flex; gap: 6px; padding: 0 8px 8px; }
+.tile .actions button { flex: 1; padding: 6px 4px; font-size: 0.7rem; }
+.tile.hidden-item img { opacity: 0.35; }
+.tile.hidden-item .meta::after { content: " (hidden)"; color: #f0a500; }
+.note { font-size: 0.8rem; color: #888; line-height: 1.5; margin-top: 12px; }
+.note a { color: #C8B6FF; }
+#status { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #2a2a2a; border: 1px solid #C8B6FF; border-radius: 30px; padding: 12px 24px; font-size: 0.9rem; font-weight: 600; display: none; max-width: 90vw; text-align: center; z-index: 10; }
+#status.error { border-color: #ef4444; }
+label.mini { font-size: 0.8rem; color: #aaa; display: flex; gap: 6px; align-items: center; }
+h3 { font-size: 1rem; margin-bottom: 12px; }
+.spacer { height: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Studio Library Admin</h1>
+    <p class="sub">Manage Creator Studio backgrounds, graphics &amp; product templates. Changes go live ~2 minutes after saving.</p>
+
+    <div class="card" id="authCard">
+        <h3>Sign in</h3>
+        <div class="row">
+            <input type="password" id="tokenInput" placeholder="GitHub access token (ghp_... or github_pat_...)" style="flex:1; min-width: 260px;">
+            <button class="primary" id="loginBtn">Unlock</button>
+        </div>
+        <div class="spacer"></div>
+        <label class="mini"><input type="checkbox" id="rememberToken"> Remember on this device</label>
+        <p class="note">Create a fine-grained token at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">github.com/settings/personal-access-tokens/new</a>: choose <b>Only select repositories → printncraftco.com</b>, and under Repository permissions set <b>Contents → Read and write</b>. Nothing on this page works without a valid token.</p>
+    </div>
+
+    <div id="app" style="display:none;">
+        <div class="tabs">
+            <button class="tab active" data-kind="backgrounds">Backgrounds</button>
+            <button class="tab" data-kind="graphics">Graphics</button>
+            <button class="tab" data-kind="templates">Templates</button>
+        </div>
+
+        <div class="card" id="catCard">
+            <h3 id="catTitle">Collections</h3>
+            <div class="cat-list" id="catList"></div>
+            <div class="row">
+                <input type="text" id="newCatName" placeholder="New collection name..." style="flex:1; min-width:200px;">
+                <button id="newCatBtn">Create</button>
+                <button id="hideCatBtn">Hide/Show Selected</button>
+            </div>
+        </div>
+
+        <div class="card" id="uploadCard">
+            <h3 id="uploadTitle">Upload images</h3>
+            <div class="row" id="uploadRowNormal">
+                <input type="file" id="fileInput" accept="image/*" multiple>
+                <button class="primary" id="uploadBtn">Upload to Selected Collection</button>
+            </div>
+            <div id="uploadRowTemplate" style="display:none;">
+                <div class="row" style="margin-bottom:10px;"><input type="text" id="tplName" placeholder="Template name (e.g. 40oz Tumbler)" style="flex:1;"></div>
+                <div class="row" style="margin-bottom:10px;"><label class="mini" style="width:90px;">Blueprint</label><input type="file" id="tplBlueprint" accept="image/*"></div>
+                <div class="row" style="margin-bottom:10px;"><label class="mini" style="width:90px;">Shading</label><input type="file" id="tplShading" accept="image/*"></div>
+                <button class="primary" id="tplCreateBtn">Create / Update Template</button>
+                <p class="note">Blueprint = the guide image with the red print zone. Shading = the realistic overlay. Both should match the product's wrap dimensions (same aspect ratio).</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Files</h3>
+            <div class="grid" id="fileGrid"></div>
+        </div>
+
+        <p class="note">Hidden items stay in storage but disappear from the studio. Deletes are permanent (though recoverable from git history). After any change, GitHub rebuilds the library index and republishes the site — allow a couple of minutes, then refresh the studio.</p>
+        <div class="spacer"></div>
+        <button id="logoutBtn">Lock &amp; forget token</button>
+    </div>
+</div>
+<div id="status"></div>
+
+<script>
+const OWNER = 'enriquehinojosa1987-bit';
+const REPO = 'printncraftco.com';
+const BRANCH = 'main';
+const BASE = 'docs/studio/library';
+const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/`;
+
+let token = sessionStorage.getItem('ghToken') || localStorage.getItem('ghToken') || '';
+let kind = 'backgrounds';
+let currentCat = null;
+let hiddenList = [];
+let hiddenSha = null;
+
+const $ = id => document.getElementById(id);
+function status(msg, isErr) {
+    const el = $('status');
+    el.textContent = msg;
+    el.className = isErr ? 'error' : '';
+    el.style.display = 'block';
+    clearTimeout(el._t);
+    el._t = setTimeout(() => el.style.display = 'none', 4000);
+}
+
+async function gh(path, opts = {}) {
+    const res = await fetch(API + path + (opts.method ? '' : `?ref=${BRANCH}&t=${Date.now()}`), {
+        ...opts,
+        headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', ...(opts.headers || {}) }
+    });
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error((await res.json()).message || res.statusText);
+    return res.json();
+}
+const putFile = (path, contentB64, message, sha) =>
+    gh(path, { method: 'PUT', body: JSON.stringify({ message, content: contentB64, branch: BRANCH, ...(sha ? { sha } : {}) }) });
+const deleteFile = (path, sha, message) =>
+    gh(path, { method: 'DELETE', body: JSON.stringify({ message, sha, branch: BRANCH }) });
+
+function fileToB64(file) {
+    return new Promise((res, rej) => {
+        const r = new FileReader();
+        r.onload = () => res(r.result.split(',')[1]);
+        r.onerror = rej;
+        r.readAsDataURL(file);
+    });
+}
+
+// ---- Hidden list ----
+async function loadHidden() {
+    const data = await gh(`${BASE}/hidden.json`);
+    if (data) { hiddenSha = data.sha; hiddenList = JSON.parse(atob(data.content)); }
+    else { hiddenSha = null; hiddenList = []; }
+}
+async function toggleHidden(relpath) {
+    const i = hiddenList.indexOf(relpath);
+    if (i >= 0) hiddenList.splice(i, 1); else hiddenList.push(relpath);
+    const result = await putFile(`${BASE}/hidden.json`, btoa(JSON.stringify(hiddenList, null, 2)),
+        `Admin: toggle visibility of ${relpath}`, hiddenSha);
+    hiddenSha = result.content.sha;
+}
+const isHidden = relpath => hiddenList.includes(relpath);
+
+// ---- Rendering ----
+async function refresh() {
+    $('catTitle').textContent = kind === 'templates' ? 'Templates' : 'Collections';
+    $('uploadRowNormal').style.display = kind === 'templates' ? 'none' : 'flex';
+    $('uploadRowTemplate').style.display = kind === 'templates' ? 'block' : 'none';
+    $('uploadTitle').textContent = kind === 'templates' ? 'Add a product template' : 'Upload images';
+
+    const items = (await gh(`${BASE}/${kind}`)) || [];
+    const dirs = items.filter(i => i.type === 'dir');
+    const list = $('catList');
+    list.innerHTML = '';
+    if (!dirs.find(d => d.name === currentCat)) currentCat = dirs[0] ? dirs[0].name : null;
+    dirs.forEach(d => {
+        const b = document.createElement('button');
+        b.className = 'cat-chip' + (d.name === currentCat ? ' active' : '') + (isHidden(`${kind}/${d.name}`) ? ' hidden-item' : '');
+        b.textContent = d.name;
+        b.onclick = () => { currentCat = d.name; refresh(); };
+        list.appendChild(b);
+    });
+    if (!dirs.length) list.innerHTML = '<span class="note">Nothing here yet.</span>';
+
+    const grid = $('fileGrid');
+    grid.innerHTML = '';
+    if (!currentCat) return;
+    const files = ((await gh(`${BASE}/${kind}/${encodeURIComponent(currentCat)}`)) || [])
+        .filter(f => f.type === 'file' && /\.(png|jpe?g|webp|svg|gif)$/i.test(f.name));
+    files.forEach(f => {
+        const rel = `${kind}/${currentCat}/${f.name}`;
+        const tile = document.createElement('div');
+        tile.className = 'tile' + (isHidden(rel) ? ' hidden-item' : '');
+        tile.innerHTML = `<img src="${f.download_url}" loading="lazy"><div class="meta">${f.name}</div>`;
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+        const hideBtn = document.createElement('button');
+        hideBtn.textContent = isHidden(rel) ? 'Show' : 'Hide';
+        hideBtn.onclick = () => run(`${isHidden(rel) ? 'Showing' : 'Hiding'} ${f.name}...`, async () => { await toggleHidden(rel); });
+        const delBtn = document.createElement('button');
+        delBtn.className = 'danger';
+        delBtn.textContent = 'Delete';
+        delBtn.onclick = () => {
+            if (!confirm(`Permanently delete ${f.name}?`)) return;
+            run(`Deleting ${f.name}...`, async () => { await deleteFile(f.path, f.sha, `Admin: delete ${rel}`); });
+        };
+        actions.append(hideBtn, delBtn);
+        tile.appendChild(actions);
+        grid.appendChild(tile);
+    });
+    if (!files.length) grid.innerHTML = '<span class="note">No images in this collection.</span>';
+}
+
+async function run(msg, fn) {
+    status(msg);
+    try { await fn(); status('Done. Site updates in ~2 min.'); await refresh(); }
+    catch (e) { status('Error: ' + e.message, true); }
+}
+
+// ---- Actions ----
+$('newCatBtn').onclick = () => {
+    const name = $('newCatName').value.trim();
+    if (!name) return status('Enter a name first.', true);
+    run(`Creating ${name}...`, async () => {
+        await putFile(`${BASE}/${kind}/${encodeURIComponent(name)}/.gitkeep`, btoa(''), `Admin: create ${kind}/${name}`);
+        $('newCatName').value = '';
+        currentCat = name;
+    });
+};
+$('hideCatBtn').onclick = () => {
+    if (!currentCat) return;
+    run(`Toggling ${currentCat}...`, async () => { await toggleHidden(`${kind}/${currentCat}`); });
+};
+$('uploadBtn').onclick = () => {
+    const files = [...$('fileInput').files];
+    if (!files.length) return status('Choose image files first.', true);
+    if (!currentCat) return status('Select or create a collection first.', true);
+    run(`Uploading ${files.length} file(s)...`, async () => {
+        for (const file of files) {
+            const b64 = await fileToB64(file);
+            const path = `${BASE}/${kind}/${encodeURIComponent(currentCat)}/${encodeURIComponent(file.name)}`;
+            const existing = await gh(`${BASE}/${kind}/${encodeURIComponent(currentCat)}/${encodeURIComponent(file.name)}`);
+            await putFile(path, b64, `Admin: upload ${kind}/${currentCat}/${file.name}`, existing ? existing.sha : undefined);
+        }
+        $('fileInput').value = '';
+    });
+};
+$('tplCreateBtn').onclick = () => {
+    const name = $('tplName').value.trim();
+    const bp = $('tplBlueprint').files[0];
+    const sh = $('tplShading').files[0];
+    if (!name || !bp || !sh) return status('Template needs a name plus blueprint and shading images.', true);
+    run(`Creating template ${name}...`, async () => {
+        for (const [role, file] of [['blueprint', bp], ['shading', sh]]) {
+            const ext = file.name.split('.').pop().toLowerCase();
+            const path = `${BASE}/templates/${encodeURIComponent(name)}/${role}.${ext}`;
+            const existing = await gh(`${BASE}/templates/${encodeURIComponent(name)}/${role}.${ext}`);
+            await putFile(path, await fileToB64(file), `Admin: template ${name} ${role}`, existing ? existing.sha : undefined);
+        }
+        $('tplName').value = ''; $('tplBlueprint').value = ''; $('tplShading').value = '';
+        currentCat = name;
+    });
+};
+
+// ---- Tabs & auth ----
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    kind = t.dataset.kind;
+    currentCat = null;
+    refresh();
+});
+$('loginBtn').onclick = async () => {
+    token = $('tokenInput').value.trim();
+    if (!token) return status('Paste a token first.', true);
+    status('Checking token...');
+    try {
+        const repo = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}`, { headers: { 'Authorization': 'Bearer ' + token } });
+        if (!repo.ok) throw new Error('Token rejected');
+        ($('rememberToken').checked ? localStorage : sessionStorage).setItem('ghToken', token);
+        await start();
+    } catch (e) { status('Invalid token: ' + e.message, true); }
+};
+$('logoutBtn').onclick = () => {
+    sessionStorage.removeItem('ghToken'); localStorage.removeItem('ghToken');
+    location.reload();
+};
+async function start() {
+    $('authCard').style.display = 'none';
+    $('app').style.display = 'block';
+    await loadHidden();
+    await refresh();
+}
+if (token) start().catch(() => { $('authCard').style.display = 'block'; $('app').style.display = 'none'; });
+</script>
+</body>
+</html>

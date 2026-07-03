@@ -40,8 +40,20 @@ function toast(message, type = 'info') {
 // 1. DYNAMIC PRODUCT LOADER + FIT-TO-SCREEN
 // ==========================================
 function loadProductAssets(productName) {
+    if (productName.startsWith('tpl:')) {
+        const name = productName.slice(4);
+        const tpl = (libraryManifest.templates || {})[name];
+        if (!tpl) { toast('Template not found.', 'error'); return; }
+        const base = `library/templates/${encodeURIComponent(name)}/`;
+        loadProduct(base + tpl.blueprint, base + tpl.shading);
+    } else {
+        loadProduct(`assets/${productName}-blueprint.png`, `assets/${productName}-shading.png`);
+    }
+}
+
+function loadProduct(blueprintUrl, shadingUrl) {
     const img = new Image();
-    img.src = `assets/${productName}-blueprint.png`;
+    img.src = blueprintUrl;
 
     img.onload = function() {
         const ratio = this.width / this.height;
@@ -51,13 +63,13 @@ function loadProductAssets(productName) {
         canvas.setWidth(baseCanvasW);
         canvas.setHeight(baseCanvasH);
 
-        blueprintOverlay.src = `assets/${productName}-blueprint.png`;
-        mockupShading.src = `assets/${productName}-shading.png`;
+        blueprintOverlay.src = blueprintUrl;
+        mockupShading.src = shadingUrl;
 
         fitCanvas();
         modePreviewBtn.click();
     }
-    img.onerror = function() { toast(`Template files for ${productName} are missing.`, 'error'); }
+    img.onerror = function() { toast('Template files are missing.', 'error'); }
 }
 
 // Scale the canvas display (CSS only) so it always fits the workspace.
@@ -117,7 +129,7 @@ const undoBtn = document.getElementById('undoBtn');
 const redoBtn = document.getElementById('redoBtn');
 
 function canvasState() {
-    return JSON.stringify(canvas.toDatalessJSON());
+    return JSON.stringify(canvas.toDatalessJSON(['archAmount']));
 }
 
 function pushHistory() {
@@ -139,7 +151,13 @@ function pushHistoryDebounced() {
 
 function restoreState(state) {
     isRestoringHistory = true;
-    canvas.loadFromJSON(state, () => {
+    // fabric can't revive text.path from JSON; strip it and rebuild from archAmount
+    const parsed = JSON.parse(state);
+    (parsed.objects || []).forEach(o => { delete o.path; });
+    canvas.loadFromJSON(parsed, () => {
+        canvas.getObjects().forEach(o => {
+            if (o.archAmount) applyArch(o, o.archAmount);
+        });
         canvas.renderAll();
         isRestoringHistory = false;
         updateHistoryButtons();
@@ -259,6 +277,14 @@ fetch('library/manifest.json')
         libraryManifest = manifest;
         setupLibrary('backgrounds', 'bgLibraryGroup', 'bgCategorySelect', 'bgLibraryGrid', true);
         setupLibrary('graphics', 'elLibraryGroup', 'elCategorySelect', 'elLibraryGrid', false);
+
+        const productSelector = document.getElementById('productSelector');
+        Object.keys(manifest.templates || {}).forEach(name => {
+            const opt = document.createElement('option');
+            opt.value = 'tpl:' + name;
+            opt.textContent = name;
+            productSelector.appendChild(opt);
+        });
     })
     .catch(() => { /* no library yet - sections stay hidden */ });
 
@@ -359,8 +385,8 @@ const sharedControls = document.getElementById('sharedControls');
 const controlsDivider = document.getElementById('controlsDivider');
 
 const textColorPicker = document.getElementById('textColorPicker');
-const fontSelector = document.getElementById('fontSelector');
 const fontSizeInput = document.getElementById('fontSizeInput');
+const archSlider = document.getElementById('archSlider');
 const outlineToggle = document.getElementById('outlineToggle');
 const outlineColorPicker = document.getElementById('outlineColorPicker');
 const shadowToggle = document.getElementById('shadowToggle');
@@ -392,10 +418,10 @@ function showEditTools() {
 
         textColorPicker.value = activeObj.fill || '#111111';
         fontSizeInput.value = Math.round(activeObj.fontSize * (activeObj.scaleX || 1));
-        const objFont = activeObj.fontFamily.replace(/['"]/g, '');
-        fontSelector.value = `'${objFont}', sans-serif`;
+        updateFontPickerButton(activeObj.fontFamily.replace(/['"]/g, ''));
         outlineToggle.checked = !!(activeObj.stroke && activeObj.strokeWidth);
         outlineColorPicker.value = activeObj.stroke || '#000000';
+        archSlider.value = activeObj.archAmount || 0;
     } else {
         textControls.style.display = 'none';
         imageControls.style.display = 'flex';
@@ -414,10 +440,103 @@ textColorPicker.addEventListener('input', (e) => {
     const obj = canvas.getActiveObject();
     if (isTextObject(obj)) { obj.set('fill', e.target.value); canvas.renderAll(); pushHistoryDebounced(); }
 });
-fontSelector.addEventListener('change', (e) => {
+// --- Font picker (live previews) ---
+const FONT_GROUPS = {
+    'Modern & Clean': ['Montserrat', 'Poppins', 'Lato', 'Open Sans', 'Roboto'],
+    'Elegant & Classic': ['Playfair Display', 'Cinzel', 'Lora', 'Merriweather', 'Cormorant Garamond'],
+    'Wedding & Script': ['Great Vibes', 'Pacifico', 'Dancing Script', 'Satisfy', 'Caveat'],
+    'Bold & Impact': ['Bebas Neue', 'Oswald', 'Abril Fatface', 'Righteous', 'Amatic SC']
+};
+const fontPickerBtn = document.getElementById('fontPickerBtn');
+const fontPickerList = document.getElementById('fontPickerList');
+
+Object.entries(FONT_GROUPS).forEach(([group, fonts]) => {
+    const heading = document.createElement('div');
+    heading.className = 'font-group-heading';
+    heading.textContent = group;
+    fontPickerList.appendChild(heading);
+    fonts.forEach(font => {
+        const item = document.createElement('button');
+        item.className = 'font-item';
+        item.textContent = font;
+        item.style.fontFamily = `'${font}'`;
+        item.dataset.font = font;
+        item.addEventListener('click', () => {
+            const obj = canvas.getActiveObject();
+            if (isTextObject(obj)) {
+                obj.set('fontFamily', font);
+                canvas.renderAll();
+                pushHistory();
+            }
+            updateFontPickerButton(font);
+            closeFlyouts();
+        });
+        fontPickerList.appendChild(item);
+    });
+});
+
+function updateFontPickerButton(font) {
+    fontPickerBtn.childNodes[0].textContent = font + ' ';
+    fontPickerBtn.style.fontFamily = `'${font}'`;
+    fontPickerList.querySelectorAll('.font-item').forEach(el => el.classList.toggle('selected', el.dataset.font === font));
+}
+
+// --- Flyout open/close (hover works via CSS; click/tap toggles for touch) ---
+function closeFlyouts() {
+    document.querySelectorAll('.flyout-group.open').forEach(g => g.classList.remove('open'));
+}
+document.querySelectorAll('.flyout-group > button').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const group = btn.parentElement;
+        const wasOpen = group.classList.contains('open');
+        closeFlyouts();
+        if (!wasOpen) group.classList.add('open');
+    });
+});
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.flyout')) closeFlyouts();
+});
+
+// --- Arch text (renders text along a circular path) ---
+function applyArch(obj, amount) {
+    obj.archAmount = amount;
+    if (!amount) {
+        obj.set('path', null);
+        obj.setCoords();
+        canvas.requestRenderAll();
+        return;
+    }
+    // Arched text follows a single line: unwrap the textbox first
+    obj.set({ width: 100000 });
+    const w = obj.calcTextWidth() + 4;
+    obj.set({ width: w });
+    const theta = Math.abs(amount) * Math.PI / 180;
+    const r = w / theta;
+    const sx = r * Math.sin(theta / 2);
+    const cy = r * Math.cos(theta / 2);
+    // amount > 0: arc over the top of the circle; amount < 0: under the bottom
+    const d = amount > 0
+        ? `M ${-sx} ${-cy} A ${r} ${r} 0 0 1 ${sx} ${-cy}`
+        : `M ${-sx} ${cy} A ${r} ${r} 0 0 0 ${sx} ${cy}`;
+    const path = new fabric.Path(d, { fill: '', stroke: '' });
+    obj.set({ path: path, pathAlign: 'center' });
+    obj.setCoords();
+    canvas.requestRenderAll();
+}
+
+archSlider.addEventListener('input', (e) => {
     const obj = canvas.getActiveObject();
-    const pureFontName = e.target.value.split(',')[0].replace(/['"]/g, '');
-    if (isTextObject(obj)) { obj.set('fontFamily', pureFontName); canvas.renderAll(); pushHistory(); }
+    if (isTextObject(obj)) { applyArch(obj, parseInt(e.target.value, 10)); pushHistoryDebounced(); }
+});
+document.getElementById('archResetBtn').addEventListener('click', () => {
+    const obj = canvas.getActiveObject();
+    archSlider.value = 0;
+    if (isTextObject(obj)) { applyArch(obj, 0); pushHistory(); }
+});
+// Re-fit the arch when the text content changes
+canvas.on('text:changed', (e) => {
+    if (e.target && e.target.archAmount) applyArch(e.target, e.target.archAmount);
 });
 fontSizeInput.addEventListener('input', (e) => {
     const obj = canvas.getActiveObject();
@@ -480,6 +599,7 @@ function duplicateSelection() {
     const obj = canvas.getActiveObject();
     if (!obj) return;
     obj.clone((clone) => {
+        clone.archAmount = obj.archAmount;
         clone.set({ left: obj.left + 20, top: obj.top + 20, transparentCorners: false, cornerColor: '#3b82f6', cornerStyle: 'circle', borderColor: '#3b82f6' });
         canvas.add(clone);
         canvas.setActiveObject(clone);
