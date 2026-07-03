@@ -1,0 +1,15 @@
+name = "studio-orders"
+main = "src/index.js"
+compatibility_date = "2026-06-01"
+
+[[r2_buckets]]
+binding = "ORDERS"
+bucket_name = "printncraft-orders"
+
+[vars]
+# Origin allowed to call this API (the live site)
+ALLOWED_ORIGIN = "https://printncraftco.com"
+# Optional: GHL inbound webhook URL — when set, every new order posts
+# { orderId, email, product, designUrl, printUrl, previewUrl } to it so your
+# GHL workflow can create the contact and send the confirmation email.
+GHL_WEBHOOK_URL = ""

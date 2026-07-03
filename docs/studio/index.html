@@ -317,6 +317,33 @@
         </div>
     </div>
 
+    <div id="orderModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <h3>Ready to order?</h3>
+            <p>You're ordering: <b id="orderProductLabel"></b>. Double-check your design — especially that everything sits inside the red print zone in Blueprint View.</p>
+            <input type="email" id="orderEmailInput" placeholder="Email for your order...">
+            <p class="disclaimer" style="margin-top: 0; margin-bottom: 20px;">After ordering you'll get a proof and an order number. You can request changes within the review window before we start production.</p>
+            <div class="modal-actions">
+                <button id="confirmOrderBtn" class="btn-primary">Yes, Place My Order</button>
+                <button id="cancelOrderBtn" class="btn-secondary">Keep Editing</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="orderSuccessModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-box">
+            <h3>🎉 Order received!</h3>
+            <p>Your order number is:</p>
+            <div class="discount-code-box"><span id="orderNumberText"></span></div>
+            <p id="orderSuccessCopy">We've saved your design and emailed your confirmation. You can request changes within the review window — after that we start production.</p>
+            <div class="modal-actions">
+                <button id="downloadProofBtn" class="btn-primary">Download My Proof</button>
+                <button id="closeOrderSuccessBtn" class="btn-secondary">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

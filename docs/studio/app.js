@@ -760,7 +760,138 @@ document.getElementById('confirmSaveBtn').addEventListener('click', () => {
         document.getElementById('saveModal').style.display = 'none';
     } else { toast('Please provide an email to save.', 'error'); }
 });
-document.getElementById('savePlaceOrderBtn').addEventListener('click', () => { toast('Proceeding to checkout...', 'info'); });
+document.getElementById('savePlaceOrderBtn').addEventListener('click', () => {
+    document.getElementById('saveModal').style.display = 'none';
+    openOrderModal();
+});
+
+// ==========================================
+// 13b. ORDER FLOW (Approve & Buy)
+// ==========================================
+let currentOrderId = new URLSearchParams(location.search).get('order') || null;
+let lastProofDataUrl = null;
+
+function genOrderId() {
+    return 'PNC-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+}
+
+function openOrderModal() {
+    if (!canvas.getObjects().length && !canvas.backgroundImage) {
+        toast('Your canvas is empty — add a design first!', 'error');
+        return;
+    }
+    const sel = document.getElementById('productSelector');
+    document.getElementById('orderProductLabel').textContent = sel.options[sel.selectedIndex].text;
+    const emailInput = document.getElementById('orderEmailInput');
+    if (introEmail.value && introEmail.value.includes('@')) emailInput.value = introEmail.value;
+    document.getElementById('orderModal').style.display = 'flex';
+}
+
+document.getElementById('saveAndBuyBtn').addEventListener('click', openOrderModal);
+document.getElementById('cancelOrderBtn').addEventListener('click', () => {
+    document.getElementById('orderModal').style.display = 'none';
+});
+
+document.getElementById('confirmOrderBtn').addEventListener('click', async () => {
+    const email = document.getElementById('orderEmailInput').value.trim();
+    if (!email || !email.includes('@')) { toast('Please enter a valid email for your order.', 'error'); return; }
+
+    const btn = document.getElementById('confirmOrderBtn');
+    btn.disabled = true;
+    btn.textContent = 'Saving your design...';
+
+    try {
+        const sel = document.getElementById('productSelector');
+        const orderId = currentOrderId || genOrderId();
+        const designJson = JSON.stringify(canvas.toDatalessJSON(['archAmount']));
+        const printPng = getPrintReadyFile();
+        lastProofDataUrl = await toLowResJpeg(await getRealisticPreview());
+
+        if (STUDIO_CONFIG.ORDER_API) {
+            const res = await fetch(STUDIO_CONFIG.ORDER_API + '/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    orderId, email,
+                    product: sel.value,
+                    productLabel: sel.options[sel.selectedIndex].text,
+                    designJson,
+                    printPng: printPng.split(',')[1],
+                    previewJpg: lastProofDataUrl.split(',')[1]
+                })
+            });
+            if (!res.ok) throw new Error('Order service returned ' + res.status);
+            const data = await res.json();
+            currentOrderId = data.orderId;
+        } else {
+            // Order backend not configured yet: hand the customer their files
+            // so no design is ever lost, and flag it clearly for us.
+            currentOrderId = orderId;
+            const link = document.createElement('a');
+            link.download = orderId + '-proof.jpg';
+            link.href = lastProofDataUrl;
+            link.click();
+            toast('Order backend not configured — proof downloaded locally.', 'error');
+        }
+
+        designDirty = false;
+        document.getElementById('orderModal').style.display = 'none';
+        document.getElementById('orderNumberText').textContent = currentOrderId;
+        document.getElementById('orderSuccessCopy').textContent =
+            `We've saved your design for ${email}. You can request changes within ${STUDIO_CONFIG.REVIEW_WINDOW_HOURS} hours — after that we start production.`;
+        document.getElementById('orderSuccessModal').style.display = 'flex';
+    } catch (err) {
+        toast('Could not save your order: ' + err.message, 'error');
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'Yes, Place My Order';
+    }
+});
+
+document.getElementById('downloadProofBtn').addEventListener('click', () => {
+    if (!lastProofDataUrl) return;
+    const link = document.createElement('a');
+    link.download = (currentOrderId || 'PrintNCraft-design') + '-proof.jpg';
+    link.href = lastProofDataUrl;
+    link.click();
+});
+document.getElementById('closeOrderSuccessBtn').addEventListener('click', () => {
+    document.getElementById('orderSuccessModal').style.display = 'none';
+});
+
+// Reopen an existing order (customer change requests / our backend edits):
+// /studio/?order=PNC-XXXX loads the saved design into the canvas.
+if (currentOrderId && STUDIO_CONFIG.ORDER_API) {
+    document.getElementById('introModal').style.display = 'none';
+    Promise.all([
+        fetch(`${STUDIO_CONFIG.ORDER_API}/orders/${currentOrderId}/design.json`).then(r => { if (!r.ok) throw new Error('not found'); return r.json(); }),
+        fetch(`${STUDIO_CONFIG.ORDER_API}/orders/${currentOrderId}/meta.json`).then(r => r.ok ? r.json() : null)
+    ]).then(([design, meta]) => {
+        if (meta) {
+            if (meta.email) introEmail.value = meta.email;
+            if (meta.product) {
+                const sel = document.getElementById('productSelector');
+                if ([...sel.options].some(o => o.value === meta.product)) {
+                    sel.value = meta.product;
+                    loadProductAssets(meta.product);
+                }
+            }
+        }
+        (design.objects || []).forEach(o => { delete o.path; });
+        isRestoringHistory = true;
+        canvas.loadFromJSON(design, () => {
+            canvas.getObjects().forEach(o => { if (o.archAmount) applyArch(o, o.archAmount); });
+            canvas.renderAll();
+            isRestoringHistory = false;
+            pushHistory();
+            showStep('step3');
+            toast(`Loaded order ${currentOrderId} — make your changes and re-approve.`, 'success');
+        });
+    }).catch(() => {
+        toast(`Order ${currentOrderId} could not be loaded.`, 'error');
+        currentOrderId = null;
+    });
+}
 
 // ==========================================
 // 14. IMAGE EXPORT GENERATORS (Native & Composite)
@@ -769,7 +900,22 @@ document.getElementById('savePlaceOrderBtn').addEventListener('click', () => { t
 // Used for backend production (Raw, Flat, High-Res design)
 function getPrintReadyFile() {
     canvas.discardActiveObject(); canvas.renderAll();
-    return canvas.toDataURL({ format: 'png', quality: 1, multiplier: 2 });
+    return canvas.toDataURL({ format: 'png', quality: 1, multiplier: STUDIO_CONFIG.PRINT_MULTIPLIER || 2 });
+}
+
+function toLowResJpeg(dataUrl, maxWidth = 900) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+            const scale = Math.min(1, maxWidth / img.width);
+            const c = document.createElement('canvas');
+            c.width = Math.round(img.width * scale);
+            c.height = Math.round(img.height * scale);
+            c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+            resolve(c.toDataURL('image/jpeg', 0.8));
+        };
+        img.src = dataUrl;
+    });
 }
 
 // Used for customers (Combines Canvas + Shadow + Watermark mathematically)
