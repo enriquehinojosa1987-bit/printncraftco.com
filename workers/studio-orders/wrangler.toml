@@ -9,7 +9,9 @@ bucket_name = "printncraft-orders"
 [vars]
 # Origin allowed to call this API (the live site)
 ALLOWED_ORIGIN = "https://printncraftco.com"
-# Optional: GHL inbound webhook URL — when set, every new order posts
-# { orderId, email, product, designUrl, printUrl, previewUrl } to it so your
-# GHL workflow can create the contact and send the confirmation email.
-GHL_WEBHOOK_URL = ""
+# GHL inbound webhook URL is stored as a Wrangler SECRET (not here, since this
+# file is in a public repo). Set it with:
+#   npx wrangler secret put GHL_WEBHOOK_URL
+# When present, every new order posts { orderId, email, product, revision,
+# designUrl, printUrl, previewUrl, editUrl } so your GHL workflow can create
+# the contact and send the confirmation email.
