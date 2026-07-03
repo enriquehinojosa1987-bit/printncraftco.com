@@ -5,7 +5,7 @@
 const STUDIO_CONFIG = {
     // Cloudflare Worker endpoint that stores orders (see workers/studio-orders/).
     // Until this is set, Approve & Buy falls back to downloading the files locally.
-    ORDER_API: '',
+    ORDER_API: 'https://studio-orders.printncraftco.workers.dev',
 
     // Where customers go to pay once the GHL shop subdomain is live.
     SHOP_URL: 'https://shop.printncraftco.com',
