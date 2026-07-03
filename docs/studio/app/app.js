@@ -44,7 +44,7 @@ function loadProductAssets(productName) {
         const name = productName.slice(4);
         const tpl = (libraryManifest.templates || {})[name];
         if (!tpl) { toast('Template not found.', 'error'); return; }
-        const base = `library/templates/${encodeURIComponent(name)}/`;
+        const base = `../library/templates/${encodeURIComponent(name)}/`;
         loadProduct(base + tpl.blueprint, base + tpl.shading);
     } else {
         loadProduct(`assets/${productName}-blueprint.png`, `assets/${productName}-shading.png`);
@@ -271,7 +271,7 @@ canvas.on('mouse:up', () => {
 // ==========================================
 let libraryManifest = { backgrounds: {}, graphics: {} };
 
-fetch('library/manifest.json')
+fetch("../library/manifest.json")
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(manifest => {
         libraryManifest = manifest;
@@ -307,7 +307,7 @@ function setupLibrary(kind, groupId, selectId, gridId, isBackground) {
         const files = libraryManifest[kind][select.value] || [];
         files.forEach(file => {
             const img = document.createElement('img');
-            img.src = `library/${kind}/${encodeURIComponent(select.value)}/${encodeURIComponent(file)}`;
+            img.src = `../library/${kind}/${encodeURIComponent(select.value)}/${encodeURIComponent(file)}`;
             img.loading = 'lazy';
             img.onclick = () => {
                 if (isBackground) applyExternalBackground(img.src);
