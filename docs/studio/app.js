@@ -395,7 +395,7 @@ const imageShapeSelector = document.getElementById('imageShapeSelector');
 
 canvas.on('selection:created', showEditTools);
 canvas.on('selection:updated', showEditTools);
-canvas.on('selection:cleared', () => { editToolbar.style.display = 'none'; });
+canvas.on('selection:cleared', () => { editToolbar.style.display = 'none'; closeFlyouts(); });
 
 function isTextObject(obj) {
     return obj && (obj.type === 'textbox' || obj.type === 'text' || obj.type === 'i-text');
@@ -481,22 +481,43 @@ function updateFontPickerButton(font) {
     fontPickerList.querySelectorAll('.font-item').forEach(el => el.classList.toggle('selected', el.dataset.font === font));
 }
 
-// --- Flyout open/close (hover works via CSS; click/tap toggles for touch) ---
-function closeFlyouts() {
-    document.querySelectorAll('.flyout-group.open').forEach(g => g.classList.remove('open'));
+// --- Flyout open/close ---
+// The toolbar is CSS-transformed and scrollable, which would both re-anchor
+// and clip position:fixed children. So flyouts are moved to <body> and
+// opened/closed/positioned entirely from JS (hover on desktop, tap on touch).
+function positionFlyout(btn, fly) {
+    const r = btn.getBoundingClientRect();
+    const fw = fly.offsetWidth;
+    const left = Math.max(8, Math.min(r.left + r.width / 2 - fw / 2, window.innerWidth - fw - 8));
+    fly.style.left = left + 'px';
+    fly.style.bottom = (window.innerHeight - r.top + 10) + 'px';
 }
-document.querySelectorAll('.flyout-group > button').forEach(btn => {
+function closeFlyouts(except) {
+    document.querySelectorAll('.flyout.show').forEach(f => { if (f !== except) f.classList.remove('show'); });
+}
+document.querySelectorAll('.flyout-group').forEach(group => {
+    const btn = group.querySelector(':scope > button');
+    const fly = group.querySelector('.flyout');
+    if (!btn || !fly) return;
+    document.body.appendChild(fly);
+
+    let closeTimer;
+    const open = () => { closeFlyouts(fly); fly.classList.add('show'); positionFlyout(btn, fly); };
+    const close = () => fly.classList.remove('show');
+    const scheduleClose = () => { closeTimer = setTimeout(close, 250); };
+    const cancelClose = () => clearTimeout(closeTimer);
+
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const group = btn.parentElement;
-        const wasOpen = group.classList.contains('open');
-        closeFlyouts();
-        if (!wasOpen) group.classList.add('open');
+        fly.classList.contains('show') ? close() : open();
     });
+    group.addEventListener('mouseenter', () => { cancelClose(); open(); });
+    group.addEventListener('mouseleave', scheduleClose);
+    fly.addEventListener('mouseenter', cancelClose);
+    fly.addEventListener('mouseleave', scheduleClose);
+    fly.addEventListener('click', (e) => e.stopPropagation());
 });
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.flyout')) closeFlyouts();
-});
+document.addEventListener('click', () => closeFlyouts());
 
 // --- Arch text (renders text along a circular path) ---
 function applyArch(obj, amount) {

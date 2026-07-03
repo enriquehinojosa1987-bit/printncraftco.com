@@ -8,7 +8,7 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #1A1A1A; color: #fff; min-height: 100vh; }
-.wrap { max-width: 980px; margin: 0 auto; padding: 30px 20px 80px; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 30px 20px 120px; }
 h1 { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, #FFD1B3, #FAD0E6, #C8B6FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
 .sub { color: #999; font-size: 0.9rem; margin-bottom: 24px; }
 .card { background: #222; border: 1px solid #333; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
@@ -28,26 +28,33 @@ button:disabled { opacity: 0.4; cursor: default; }
 .cat-chip.active { background: #3a3357; border-color: #C8B6FF; color: #C8B6FF; }
 .cat-chip.hidden-item { opacity: 0.5; text-decoration: line-through; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
-.tile { background: #1a1a1a; border: 1px solid #333; border-radius: 10px; overflow: hidden; }
+.tile { background: #1a1a1a; border: 1px solid #333; border-radius: 10px; overflow: hidden; position: relative; }
 .tile img { width: 100%; aspect-ratio: 1/1; object-fit: contain; background: repeating-conic-gradient(#2a2a2a 0% 25%, #222 0% 50%) 0 0 / 16px 16px; display: block; }
 .tile .meta { padding: 8px; font-size: 0.72rem; color: #bbb; word-break: break-all; }
 .tile .actions { display: flex; gap: 6px; padding: 0 8px 8px; }
 .tile .actions button { flex: 1; padding: 6px 4px; font-size: 0.7rem; }
 .tile.hidden-item img { opacity: 0.35; }
 .tile.hidden-item .meta::after { content: " (hidden)"; color: #f0a500; }
+.tile .badge { position: absolute; top: 8px; right: 8px; font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 10px; text-transform: uppercase; }
+.badge.new { background: #1d4023; color: #6ee787; border: 1px solid #2ea043; }
+.badge.del { background: #40201d; color: #ff8f8f; border: 1px solid #a03030; }
+.badge.mod { background: #3a3357; color: #C8B6FF; border: 1px solid #6a5acd; }
+.tile.pending-delete img { opacity: 0.25; filter: grayscale(1); }
 .note { font-size: 0.8rem; color: #888; line-height: 1.5; margin-top: 12px; }
 .note a { color: #C8B6FF; }
-#status { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #2a2a2a; border: 1px solid #C8B6FF; border-radius: 30px; padding: 12px 24px; font-size: 0.9rem; font-weight: 600; display: none; max-width: 90vw; text-align: center; z-index: 10; }
+#status { position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%); background: #2a2a2a; border: 1px solid #C8B6FF; border-radius: 30px; padding: 12px 24px; font-size: 0.9rem; font-weight: 600; display: none; max-width: 90vw; text-align: center; z-index: 10; }
 #status.error { border-color: #ef4444; }
 label.mini { font-size: 0.8rem; color: #aaa; display: flex; gap: 6px; align-items: center; }
 h3 { font-size: 1rem; margin-bottom: 12px; }
 .spacer { height: 14px; }
+#publishBar { position: fixed; bottom: 0; left: 0; right: 0; background: #16131f; border-top: 1px solid #3a3357; padding: 14px 20px; display: none; align-items: center; justify-content: center; gap: 14px; z-index: 20; }
+#publishBar .count { font-weight: 800; color: #C8B6FF; }
 </style>
 </head>
 <body>
 <div class="wrap">
     <h1>Studio Library Admin</h1>
-    <p class="sub">Manage Creator Studio backgrounds, graphics &amp; product templates. Changes go live ~2 minutes after saving.</p>
+    <p class="sub">Manage Creator Studio backgrounds, graphics &amp; product templates. Changes are staged locally, then published in one shot.</p>
 
     <div class="card" id="authCard">
         <h3>Sign in</h3>
@@ -81,13 +88,13 @@ h3 { font-size: 1rem; margin-bottom: 12px; }
             <h3 id="uploadTitle">Upload images</h3>
             <div class="row" id="uploadRowNormal">
                 <input type="file" id="fileInput" accept="image/*" multiple>
-                <button class="primary" id="uploadBtn">Upload to Selected Collection</button>
+                <button class="primary" id="uploadBtn">Stage Upload</button>
             </div>
             <div id="uploadRowTemplate" style="display:none;">
                 <div class="row" style="margin-bottom:10px;"><input type="text" id="tplName" placeholder="Template name (e.g. 40oz Tumbler)" style="flex:1;"></div>
                 <div class="row" style="margin-bottom:10px;"><label class="mini" style="width:90px;">Blueprint</label><input type="file" id="tplBlueprint" accept="image/*"></div>
                 <div class="row" style="margin-bottom:10px;"><label class="mini" style="width:90px;">Shading</label><input type="file" id="tplShading" accept="image/*"></div>
-                <button class="primary" id="tplCreateBtn">Create / Update Template</button>
+                <button class="primary" id="tplCreateBtn">Stage Template</button>
                 <p class="note">Blueprint = the guide image with the red print zone. Shading = the realistic overlay. Both should match the product's wrap dimensions (same aspect ratio).</p>
             </div>
         </div>
@@ -97,10 +104,16 @@ h3 { font-size: 1rem; margin-bottom: 12px; }
             <div class="grid" id="fileGrid"></div>
         </div>
 
-        <p class="note">Hidden items stay in storage but disappear from the studio. Deletes are permanent (though recoverable from git history). After any change, GitHub rebuilds the library index and republishes the site — allow a couple of minutes, then refresh the studio.</p>
+        <p class="note">Nothing touches the live site until you hit <b>Publish</b> — stage as many uploads, deletes, and hide/shows as you want, then push them as a single update (one build, ~2 min). Hidden items stay in storage but disappear from the studio. Deletes are permanent after publishing (though recoverable from git history).</p>
         <div class="spacer"></div>
         <button id="logoutBtn">Lock &amp; forget token</button>
     </div>
+</div>
+
+<div id="publishBar">
+    <span><span class="count" id="pendingCount">0</span> staged change(s)</span>
+    <button class="primary" id="publishBtn">Publish All</button>
+    <button id="discardBtn">Discard</button>
 </div>
 <div id="status"></div>
 
@@ -109,13 +122,16 @@ const OWNER = 'enriquehinojosa1987-bit';
 const REPO = 'printncraftco.com';
 const BRANCH = 'main';
 const BASE = 'docs/studio/library';
-const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/`;
+const API = `https://api.github.com/repos/${OWNER}/${REPO}/`;
 
 let token = sessionStorage.getItem('ghToken') || localStorage.getItem('ghToken') || '';
 let kind = 'backgrounds';
 let currentCat = null;
 let hiddenList = [];
-let hiddenSha = null;
+let hiddenDirty = false;
+
+// Staged changes: path -> {op: 'put'|'delete', b64?, previewUrl?}
+const pending = new Map();
 
 const $ = id => document.getElementById(id);
 function status(msg, isErr) {
@@ -124,22 +140,19 @@ function status(msg, isErr) {
     el.className = isErr ? 'error' : '';
     el.style.display = 'block';
     clearTimeout(el._t);
-    el._t = setTimeout(() => el.style.display = 'none', 4000);
+    el._t = setTimeout(() => el.style.display = 'none', 5000);
 }
 
 async function gh(path, opts = {}) {
-    const res = await fetch(API + path + (opts.method ? '' : `?ref=${BRANCH}&t=${Date.now()}`), {
+    const res = await fetch(API + path, {
         ...opts,
         headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', ...(opts.headers || {}) }
     });
     if (res.status === 404) return null;
-    if (!res.ok) throw new Error((await res.json()).message || res.statusText);
+    if (!res.ok) throw new Error((await res.json().catch(() => ({}))).message || res.statusText);
     return res.json();
 }
-const putFile = (path, contentB64, message, sha) =>
-    gh(path, { method: 'PUT', body: JSON.stringify({ message, content: contentB64, branch: BRANCH, ...(sha ? { sha } : {}) }) });
-const deleteFile = (path, sha, message) =>
-    gh(path, { method: 'DELETE', body: JSON.stringify({ message, sha, branch: BRANCH }) });
+const contents = path => gh(`contents/${path}?ref=${BRANCH}&t=${Date.now()}`);
 
 function fileToB64(file) {
     return new Promise((res, rej) => {
@@ -150,38 +163,123 @@ function fileToB64(file) {
     });
 }
 
+// ---- Staging ----
+function stage(path, change) {
+    pending.set(path, change);
+    updatePublishBar();
+    render();
+}
+function updatePublishBar() {
+    const n = pending.size + (hiddenDirty ? 1 : 0);
+    $('publishBar').style.display = n ? 'flex' : 'none';
+    $('pendingCount').textContent = n;
+}
+
 // ---- Hidden list ----
 async function loadHidden() {
-    const data = await gh(`${BASE}/hidden.json`);
-    if (data) { hiddenSha = data.sha; hiddenList = JSON.parse(atob(data.content)); }
-    else { hiddenSha = null; hiddenList = []; }
+    const data = await contents(`${BASE}/hidden.json`);
+    hiddenList = data ? JSON.parse(atob(data.content)) : [];
+    hiddenDirty = false;
 }
-async function toggleHidden(relpath) {
+function toggleHidden(relpath) {
     const i = hiddenList.indexOf(relpath);
     if (i >= 0) hiddenList.splice(i, 1); else hiddenList.push(relpath);
-    const result = await putFile(`${BASE}/hidden.json`, btoa(JSON.stringify(hiddenList, null, 2)),
-        `Admin: toggle visibility of ${relpath}`, hiddenSha);
-    hiddenSha = result.content.sha;
+    hiddenDirty = true;
+    updatePublishBar();
+    render();
 }
 const isHidden = relpath => hiddenList.includes(relpath);
 
+// ---- Publish: one commit via the Git Data API ----
+$('publishBtn').onclick = async () => {
+    const ops = [...pending.entries()];
+    if (!ops.length && !hiddenDirty) return;
+    $('publishBtn').disabled = true;
+    try {
+        status('Publishing...');
+        const ref = await gh(`git/ref/heads/${BRANCH}`);
+        const headSha = ref.object.sha;
+        const headCommit = await gh(`git/commits/${headSha}`);
+
+        const tree = [];
+        let done = 0;
+        for (const [path, ch] of ops) {
+            if (ch.op === 'put') {
+                status(`Uploading ${++done}/${ops.length}...`);
+                const blob = await gh('git/blobs', { method: 'POST', body: JSON.stringify({ content: ch.b64, encoding: 'base64' }) });
+                tree.push({ path, mode: '100644', type: 'blob', sha: blob.sha });
+            } else {
+                tree.push({ path, mode: '100644', type: 'blob', sha: null });
+            }
+        }
+        if (hiddenDirty) {
+            const blob = await gh('git/blobs', { method: 'POST', body: JSON.stringify({ content: btoa(JSON.stringify(hiddenList, null, 2)), encoding: 'base64' }) });
+            tree.push({ path: `${BASE}/hidden.json`, mode: '100644', type: 'blob', sha: blob.sha });
+        }
+
+        const newTree = await gh('git/trees', { method: 'POST', body: JSON.stringify({ base_tree: headCommit.tree.sha, tree }) });
+        const summary = `Admin: publish ${tree.length} library change(s)`;
+        const commit = await gh('git/commits', { method: 'POST', body: JSON.stringify({ message: summary, tree: newTree.sha, parents: [headSha] }) });
+        await gh(`git/refs/heads/${BRANCH}`, { method: 'PATCH', body: JSON.stringify({ sha: commit.sha }) });
+
+        pending.clear();
+        hiddenDirty = false;
+        updatePublishBar();
+        status('Published! Live in ~2 minutes.');
+        await refresh();
+    } catch (e) {
+        status('Publish failed: ' + e.message, true);
+    } finally {
+        $('publishBtn').disabled = false;
+    }
+};
+$('discardBtn').onclick = async () => {
+    if (!confirm('Discard all staged changes?')) return;
+    pending.clear();
+    await loadHidden();
+    updatePublishBar();
+    refresh();
+};
+
 // ---- Rendering ----
+let remoteDirs = [], remoteFiles = [];
 async function refresh() {
     $('catTitle').textContent = kind === 'templates' ? 'Templates' : 'Collections';
     $('uploadRowNormal').style.display = kind === 'templates' ? 'none' : 'flex';
     $('uploadRowTemplate').style.display = kind === 'templates' ? 'block' : 'none';
     $('uploadTitle').textContent = kind === 'templates' ? 'Add a product template' : 'Upload images';
 
-    const items = (await gh(`${BASE}/${kind}`)) || [];
-    const dirs = items.filter(i => i.type === 'dir');
+    const items = (await contents(`${BASE}/${kind}`)) || [];
+    remoteDirs = items.filter(i => i.type === 'dir').map(d => d.name);
+    if (currentCat && !remoteDirs.includes(currentCat) && !stagedDirs().includes(currentCat)) currentCat = null;
+    if (!currentCat) currentCat = remoteDirs[0] || stagedDirs()[0] || null;
+
+    remoteFiles = [];
+    if (currentCat && remoteDirs.includes(currentCat)) {
+        remoteFiles = ((await contents(`${BASE}/${kind}/${encodeURIComponent(currentCat)}`)) || [])
+            .filter(f => f.type === 'file' && /\.(png|jpe?g|webp|svg|gif)$/i.test(f.name));
+    }
+    render();
+}
+
+function stagedDirs() {
+    const prefix = `${BASE}/${kind}/`;
+    const dirs = new Set();
+    pending.forEach((ch, path) => {
+        if (ch.op === 'put' && path.startsWith(prefix)) dirs.add(path.slice(prefix.length).split('/')[0]);
+    });
+    return [...dirs];
+}
+
+function render() {
     const list = $('catList');
     list.innerHTML = '';
-    if (!dirs.find(d => d.name === currentCat)) currentCat = dirs[0] ? dirs[0].name : null;
+    const dirs = [...new Set([...remoteDirs, ...stagedDirs()])].sort();
     dirs.forEach(d => {
         const b = document.createElement('button');
-        b.className = 'cat-chip' + (d.name === currentCat ? ' active' : '') + (isHidden(`${kind}/${d.name}`) ? ' hidden-item' : '');
-        b.textContent = d.name;
-        b.onclick = () => { currentCat = d.name; refresh(); };
+        b.className = 'cat-chip' + (d === currentCat ? ' active' : '') + (isHidden(`${kind}/${d}`) ? ' hidden-item' : '');
+        b.textContent = d;
+        b.onclick = () => { currentCat = d; refresh(); };
         list.appendChild(b);
     });
     if (!dirs.length) list.innerHTML = '<span class="note">Nothing here yet.</span>';
@@ -189,82 +287,100 @@ async function refresh() {
     const grid = $('fileGrid');
     grid.innerHTML = '';
     if (!currentCat) return;
-    const files = ((await gh(`${BASE}/${kind}/${encodeURIComponent(currentCat)}`)) || [])
-        .filter(f => f.type === 'file' && /\.(png|jpe?g|webp|svg|gif)$/i.test(f.name));
-    files.forEach(f => {
+
+    const catPrefix = `${BASE}/${kind}/${currentCat}/`;
+    const shown = new Set();
+
+    remoteFiles.forEach(f => {
+        shown.add(f.name);
         const rel = `${kind}/${currentCat}/${f.name}`;
-        const tile = document.createElement('div');
-        tile.className = 'tile' + (isHidden(rel) ? ' hidden-item' : '');
-        tile.innerHTML = `<img src="${f.download_url}" loading="lazy"><div class="meta">${f.name}</div>`;
-        const actions = document.createElement('div');
-        actions.className = 'actions';
-        const hideBtn = document.createElement('button');
-        hideBtn.textContent = isHidden(rel) ? 'Show' : 'Hide';
-        hideBtn.onclick = () => run(`${isHidden(rel) ? 'Showing' : 'Hiding'} ${f.name}...`, async () => { await toggleHidden(rel); });
-        const delBtn = document.createElement('button');
-        delBtn.className = 'danger';
-        delBtn.textContent = 'Delete';
-        delBtn.onclick = () => {
-            if (!confirm(`Permanently delete ${f.name}?`)) return;
-            run(`Deleting ${f.name}...`, async () => { await deleteFile(f.path, f.sha, `Admin: delete ${rel}`); });
-        };
-        actions.append(hideBtn, delBtn);
-        tile.appendChild(actions);
-        grid.appendChild(tile);
+        const path = `${BASE}/${kind}/${currentCat}/${f.name}`;
+        const ch = pending.get(path);
+        addTile(grid, f.name, ch && ch.op === 'put' ? ch.previewUrl : f.download_url, rel, path, ch);
     });
-    if (!files.length) grid.innerHTML = '<span class="note">No images in this collection.</span>';
+    // Staged new files not on the server yet
+    pending.forEach((ch, path) => {
+        if (ch.op !== 'put' || !path.startsWith(catPrefix)) return;
+        const name = path.slice(catPrefix.length);
+        if (name.includes('/') || shown.has(name) || name === '.gitkeep') return;
+        addTile(grid, name, ch.previewUrl, `${kind}/${currentCat}/${name}`, path, ch);
+    });
+
+    if (!grid.children.length) grid.innerHTML = '<span class="note">No images in this collection.</span>';
 }
 
-async function run(msg, fn) {
-    status(msg);
-    try { await fn(); status('Done. Site updates in ~2 min.'); await refresh(); }
-    catch (e) { status('Error: ' + e.message, true); }
+function addTile(grid, name, imgUrl, rel, path, ch) {
+    const tile = document.createElement('div');
+    tile.className = 'tile' + (isHidden(rel) ? ' hidden-item' : '') + (ch && ch.op === 'delete' ? ' pending-delete' : '');
+    tile.innerHTML = `<img src="${imgUrl}" loading="lazy"><div class="meta">${name}</div>`;
+    if (ch) {
+        const badge = document.createElement('span');
+        badge.className = 'badge ' + (ch.op === 'delete' ? 'del' : (remoteFiles.find(f => f.name === name) ? 'mod' : 'new'));
+        badge.textContent = ch.op === 'delete' ? 'delete' : (remoteFiles.find(f => f.name === name) ? 'replace' : 'new');
+        tile.appendChild(badge);
+    }
+    const actions = document.createElement('div');
+    actions.className = 'actions';
+
+    const hideBtn = document.createElement('button');
+    hideBtn.textContent = isHidden(rel) ? 'Show' : 'Hide';
+    hideBtn.onclick = () => toggleHidden(rel);
+
+    const delBtn = document.createElement('button');
+    delBtn.className = 'danger';
+    if (ch) {
+        delBtn.textContent = 'Unstage';
+        delBtn.onclick = () => { pending.delete(path); updatePublishBar(); render(); };
+    } else {
+        delBtn.textContent = 'Delete';
+        delBtn.onclick = () => stage(path, { op: 'delete' });
+    }
+    actions.append(hideBtn, delBtn);
+    tile.appendChild(actions);
+    grid.appendChild(tile);
 }
 
-// ---- Actions ----
+// ---- Actions (all stage, nothing pushes) ----
 $('newCatBtn').onclick = () => {
     const name = $('newCatName').value.trim();
     if (!name) return status('Enter a name first.', true);
-    run(`Creating ${name}...`, async () => {
-        await putFile(`${BASE}/${kind}/${encodeURIComponent(name)}/.gitkeep`, btoa(''), `Admin: create ${kind}/${name}`);
-        $('newCatName').value = '';
-        currentCat = name;
-    });
+    stage(`${BASE}/${kind}/${name}/.gitkeep`, { op: 'put', b64: btoa('') });
+    $('newCatName').value = '';
+    currentCat = name;
+    status(`Collection "${name}" staged.`);
 };
-$('hideCatBtn').onclick = () => {
-    if (!currentCat) return;
-    run(`Toggling ${currentCat}...`, async () => { await toggleHidden(`${kind}/${currentCat}`); });
-};
-$('uploadBtn').onclick = () => {
+$('hideCatBtn').onclick = () => { if (currentCat) toggleHidden(`${kind}/${currentCat}`); };
+$('uploadBtn').onclick = async () => {
     const files = [...$('fileInput').files];
     if (!files.length) return status('Choose image files first.', true);
     if (!currentCat) return status('Select or create a collection first.', true);
-    run(`Uploading ${files.length} file(s)...`, async () => {
-        for (const file of files) {
-            const b64 = await fileToB64(file);
-            const path = `${BASE}/${kind}/${encodeURIComponent(currentCat)}/${encodeURIComponent(file.name)}`;
-            const existing = await gh(`${BASE}/${kind}/${encodeURIComponent(currentCat)}/${encodeURIComponent(file.name)}`);
-            await putFile(path, b64, `Admin: upload ${kind}/${currentCat}/${file.name}`, existing ? existing.sha : undefined);
-        }
-        $('fileInput').value = '';
-    });
+    for (const file of files) {
+        stage(`${BASE}/${kind}/${currentCat}/${file.name}`, {
+            op: 'put', b64: await fileToB64(file), previewUrl: URL.createObjectURL(file)
+        });
+    }
+    $('fileInput').value = '';
+    status(`${files.length} file(s) staged.`);
 };
-$('tplCreateBtn').onclick = () => {
+$('tplCreateBtn').onclick = async () => {
     const name = $('tplName').value.trim();
     const bp = $('tplBlueprint').files[0];
     const sh = $('tplShading').files[0];
     if (!name || !bp || !sh) return status('Template needs a name plus blueprint and shading images.', true);
-    run(`Creating template ${name}...`, async () => {
-        for (const [role, file] of [['blueprint', bp], ['shading', sh]]) {
-            const ext = file.name.split('.').pop().toLowerCase();
-            const path = `${BASE}/templates/${encodeURIComponent(name)}/${role}.${ext}`;
-            const existing = await gh(`${BASE}/templates/${encodeURIComponent(name)}/${role}.${ext}`);
-            await putFile(path, await fileToB64(file), `Admin: template ${name} ${role}`, existing ? existing.sha : undefined);
-        }
-        $('tplName').value = ''; $('tplBlueprint').value = ''; $('tplShading').value = '';
-        currentCat = name;
-    });
+    for (const [role, file] of [['blueprint', bp], ['shading', sh]]) {
+        const ext = file.name.split('.').pop().toLowerCase();
+        stage(`${BASE}/templates/${name}/${role}.${ext}`, {
+            op: 'put', b64: await fileToB64(file), previewUrl: URL.createObjectURL(file)
+        });
+    }
+    $('tplName').value = ''; $('tplBlueprint').value = ''; $('tplShading').value = '';
+    currentCat = name;
+    status(`Template "${name}" staged.`);
 };
+
+window.addEventListener('beforeunload', (e) => {
+    if (pending.size || hiddenDirty) { e.preventDefault(); e.returnValue = ''; }
+});
 
 // ---- Tabs & auth ----
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
