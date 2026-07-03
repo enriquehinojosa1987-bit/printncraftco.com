@@ -465,6 +465,7 @@ Object.entries(FONT_GROUPS).forEach(([group, fonts]) => {
             const obj = canvas.getActiveObject();
             if (isTextObject(obj)) {
                 obj.set('fontFamily', font);
+                refreshArch(obj);
                 canvas.renderAll();
                 pushHistory();
             }
@@ -530,10 +531,13 @@ function applyArch(obj, amount) {
         canvas.requestRenderAll();
         return;
     }
-    // Arched text follows a single line: unwrap the textbox first
+    // Arched text follows a single line: unwrap the textbox and force a
+    // re-layout before measuring, or we get the stale wrapped width
     obj.set({ width: 100000 });
+    obj.initDimensions();
     const w = obj.calcTextWidth() + 4;
     obj.set({ width: w });
+    obj.initDimensions();
     const theta = Math.abs(amount) * Math.PI / 180;
     const r = w / theta;
     const sx = r * Math.sin(theta / 2);
@@ -557,16 +561,20 @@ document.getElementById('archResetBtn').addEventListener('click', () => {
     archSlider.value = 0;
     if (isTextObject(obj)) { applyArch(obj, 0); pushHistory(); }
 });
-// Re-fit the arch when the text content changes
-canvas.on('text:changed', (e) => {
-    if (e.target && e.target.archAmount) applyArch(e.target, e.target.archAmount);
-});
+// Re-fit the arch whenever the text's natural width changes
+// (typing, font swap, font size change, or resizing via handles)
+function refreshArch(obj) {
+    if (obj && obj.archAmount) applyArch(obj, obj.archAmount);
+}
+canvas.on('text:changed', (e) => refreshArch(e.target));
+canvas.on('object:modified', (e) => refreshArch(e.target));
 fontSizeInput.addEventListener('input', (e) => {
     const obj = canvas.getActiveObject();
     const size = parseInt(e.target.value, 10);
     if (isTextObject(obj) && size >= 8 && size <= 300) {
         // Bake any drag-scaling into the font size so the number shown is the truth
         obj.set({ fontSize: size, scaleX: 1, scaleY: 1 });
+        refreshArch(obj);
         obj.setCoords();
         canvas.renderAll();
         pushHistoryDebounced();
