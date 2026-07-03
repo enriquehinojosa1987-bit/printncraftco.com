@@ -503,7 +503,9 @@ document.querySelectorAll('.flyout-group').forEach(group => {
 
     let closeTimer;
     const open = () => { closeFlyouts(fly); fly.classList.add('show'); positionFlyout(btn, fly); };
-    const close = () => fly.classList.remove('show');
+    // Don't close while a control inside is focused (e.g. the native color
+    // picker dialog keeps focus on its input the whole time it's open)
+    const close = () => { if (!fly.contains(document.activeElement)) fly.classList.remove('show'); };
     const scheduleClose = () => { closeTimer = setTimeout(close, 250); };
     const cancelClose = () => clearTimeout(closeTimer);
 
