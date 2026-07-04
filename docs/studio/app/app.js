@@ -109,7 +109,8 @@ function currentVariant() {
     const brand = product.brands[brandKey] || {};
     return {
         sizeKey, brandKey,
-        buyNowId: brand.buyNowId || '',
+        productId: product.productId || '',
+        variantId: brand.variantId || '',
         price: brand.price,
         description: product.description || '',
         brandNote: brand.note || '',
@@ -881,7 +882,8 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
                     product: sel.value,
                     productLabel: variant ? variant.label : sel.selectedOptions[0].text,
                     brand: variant ? variant.brandKey : null,
-                    buyNowId: variant ? variant.buyNowId : null,
+                    productId: variant ? variant.productId : null,
+                    variantId: variant ? variant.variantId : null,
                     price: variant ? variant.price : null,
                     designJson,
                     printPng: printPng.split(',')[1],
@@ -918,13 +920,16 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
     }
 });
 
-// Point the success screen at the right shop checkout for the ordered variant.
-// Each brand variant carries its own "buy now" id; we build the URL from it.
+// Point the success screen at the right shop PRODUCT PAGE for the ordered
+// variant (with the brand/size variant preselected). We link to the product
+// page rather than /checkout because GHL's buy-now checkout is session-based
+// and a bare /checkout link shows an empty cart from a fresh tab.
 function checkoutUrlFor(variant) {
-    const buyNowId = variant && variant.buyNowId;
-    if (!buyNowId) return '';
+    if (!variant || !variant.productId) return '';
     const base = (STUDIO_CONFIG.SHOP_URL || '').replace(/\/$/, '');
-    return `${base}/checkout?buyNowProductId=${encodeURIComponent(buyNowId)}`;
+    let url = `${base}/product-details/product/${encodeURIComponent(variant.productId)}/`;
+    if (variant.variantId) url += `?variant=${encodeURIComponent(variant.variantId)}`;
+    return url;
 }
 function configureCheckout(email) {
     const btn = document.getElementById('checkoutBtn');
@@ -932,7 +937,7 @@ function configureCheckout(email) {
     const url = checkoutUrlFor(lastOrderVariant);
     if (url) {
         btn.style.display = '';
-        copy.textContent = `We've saved your design for ${email}. Tap the copy button above to copy your order number, then Continue to Checkout — it opens in a new tab, so keep this one open. At checkout, paste your order number into the "Notes" field so we can match your payment to your design. You can request changes within ${STUDIO_CONFIG.REVIEW_WINDOW_HOURS} hours.`;
+        copy.textContent = `We've saved your design for ${email}. Tap the copy button above to copy your order number, then Continue to Shop — it opens your product in a new tab (keep this one open). Add it to your cart and, at checkout, paste your order number into the "Notes" field so we can match your payment to your design. You can request changes within ${STUDIO_CONFIG.REVIEW_WINDOW_HOURS} hours.`;
     } else {
         btn.style.display = 'none';
         copy.textContent = `We've saved your design for ${email}. Online checkout for this product is coming soon — we'll email you to finish your order. (Order ${currentOrderId})`;
@@ -942,13 +947,12 @@ function configureCheckout(email) {
 document.getElementById('checkoutBtn').addEventListener('click', () => {
     const url = checkoutUrlFor(lastOrderVariant);
     if (!url) return;
-    const dest = `${url}&ref=${encodeURIComponent(currentOrderId)}&email=${encodeURIComponent(lastOrderEmail || '')}`;
     // Copy the order number now so it's ready to paste into the checkout "Notes"
-    // field in the new tab, then open checkout in a NEW TAB so the studio tab
-    // (and the order number) stays put.
+    // field, then open the product page in a NEW TAB so the studio tab (and the
+    // order number) stays put. The shopper adds to cart / buys from there.
     try { navigator.clipboard.writeText(currentOrderId); } catch (e) {}
     toast('Order number copied — paste it into the Notes field at checkout.', 'success');
-    window.open(dest, '_blank', 'noopener');
+    window.open(url, '_blank', 'noopener');
 });
 
 document.getElementById('downloadProofBtn').addEventListener('click', () => {
