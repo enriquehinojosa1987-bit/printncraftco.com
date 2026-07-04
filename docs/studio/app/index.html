@@ -334,10 +334,15 @@
         <div class="modal-box">
             <h3>🎉 Order received!</h3>
             <p>Your order number is:</p>
-            <div class="discount-code-box"><span id="orderNumberText"></span></div>
+            <div class="discount-code-box">
+                <span id="orderNumberText"></span>
+                <button id="copyOrderNumberBtn" title="Copy Order Number">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+            </div>
             <p id="orderSuccessCopy">We've saved your design and emailed your confirmation. You can request changes within the review window — after that we start production.</p>
             <div class="modal-actions">
-                <button id="checkoutBtn" class="btn-primary btn-order">Buy Now</button>
+                <button id="checkoutBtn" class="btn-primary btn-order">Continue to Checkout</button>
                 <button id="downloadProofBtn" class="btn-secondary">Download My Proof</button>
                 <button id="closeOrderSuccessBtn" class="btn-secondary">Done</button>
             </div>

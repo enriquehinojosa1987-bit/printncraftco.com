@@ -852,8 +852,12 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
 });
 
 // Point the success screen at the right shop checkout for the ordered product.
+// PRODUCTS holds each product's "buy now" id; we build the checkout URL here.
 function checkoutUrlFor(product) {
-    return (STUDIO_CONFIG.PRODUCTS || {})[product] || '';
+    const buyNowId = (STUDIO_CONFIG.PRODUCTS || {})[product] || '';
+    if (!buyNowId) return '';
+    const base = (STUDIO_CONFIG.SHOP_URL || '').replace(/\/$/, '');
+    return `${base}/checkout?buyNowProductId=${encodeURIComponent(buyNowId)}`;
 }
 function configureCheckout(email) {
     const btn = document.getElementById('checkoutBtn');
@@ -861,7 +865,7 @@ function configureCheckout(email) {
     const url = checkoutUrlFor(lastOrderProduct);
     if (url) {
         btn.style.display = '';
-        copy.textContent = `We've saved your design for ${email}. Tap Buy Now to purchase — your order number rides along so we match it to your design. You can request changes within ${STUDIO_CONFIG.REVIEW_WINDOW_HOURS} hours.`;
+        copy.textContent = `We've saved your design for ${email}. Tap the copy button above to copy your order number, then Continue to Checkout — it opens in a new tab, so keep this one open. At checkout, paste your order number into the "Notes" field so we can match your payment to your design. You can request changes within ${STUDIO_CONFIG.REVIEW_WINDOW_HOURS} hours.`;
     } else {
         btn.style.display = 'none';
         copy.textContent = `We've saved your design for ${email}. Online checkout for this product is coming soon — we'll email you to finish your order. (Order ${currentOrderId})`;
@@ -871,10 +875,13 @@ function configureCheckout(email) {
 document.getElementById('checkoutBtn').addEventListener('click', () => {
     const url = checkoutUrlFor(lastOrderProduct);
     if (!url) return;
-    const sep = url.includes('?') ? '&' : '?';
-    const dest = `${url}${sep}ref=${encodeURIComponent(currentOrderId)}&email=${encodeURIComponent(lastOrderEmail || '')}`;
-    // Break out of the studio iframe so the whole page goes to checkout
-    (window.top || window).location.href = dest;
+    const dest = `${url}&ref=${encodeURIComponent(currentOrderId)}&email=${encodeURIComponent(lastOrderEmail || '')}`;
+    // Copy the order number now so it's ready to paste into the checkout "Notes"
+    // field in the new tab, then open checkout in a NEW TAB so the studio tab
+    // (and the order number) stays put.
+    try { navigator.clipboard.writeText(currentOrderId); } catch (e) {}
+    toast('Order number copied — paste it into the Notes field at checkout.', 'success');
+    window.open(dest, '_blank', 'noopener');
 });
 
 document.getElementById('downloadProofBtn').addEventListener('click', () => {
@@ -1014,6 +1021,11 @@ document.getElementById('copyCaptionBtn').addEventListener('click', (e) => {
 document.getElementById('copyCodeBtn').addEventListener('click', () => {
     navigator.clipboard.writeText(document.getElementById('discountCodeText').innerText);
     toast('Discount code copied to clipboard!', 'success');
+});
+
+document.getElementById('copyOrderNumberBtn').addEventListener('click', () => {
+    navigator.clipboard.writeText(document.getElementById('orderNumberText').innerText);
+    toast('Order number copied to clipboard!', 'success');
 });
 
 document.getElementById('triggerShareBtn').addEventListener('click', async () => {
