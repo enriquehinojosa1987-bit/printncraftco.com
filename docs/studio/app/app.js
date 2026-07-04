@@ -91,8 +91,67 @@ function fitCanvas() {
 }
 window.addEventListener('resize', fitCanvas);
 
+// ---- Product + brand variant resolution -------------------------------
+const productSelectorEl = document.getElementById('productSelector');
+const brandGroupEl = document.getElementById('brandGroup');
+const brandSelectorEl = document.getElementById('brandSelector');
+
+function fmtPrice(p) { return '$' + Number(p).toFixed(2); }
+
+// The resolved variant the customer is buying, or null for library templates.
+function currentVariant() {
+    const sizeKey = productSelectorEl.value;
+    const product = (STUDIO_CONFIG.CATALOG || {})[sizeKey];
+    if (!product) return null; // e.g. a 'tpl:' library template
+    const brandKeys = Object.keys(product.brands || {});
+    const brandKey = brandSelectorEl.value && product.brands[brandSelectorEl.value]
+        ? brandSelectorEl.value : brandKeys[0];
+    const brand = product.brands[brandKey] || {};
+    return {
+        sizeKey, brandKey,
+        buyNowId: brand.buyNowId || '',
+        price: brand.price,
+        description: product.description || '',
+        brandNote: brand.note || '',
+        label: brandKeys.length > 1 ? `${product.label} — ${brandKey}` : product.label
+    };
+}
+
+// Rebuild the brand dropdown for the selected product (call on product change).
+function populateBrands() {
+    const product = (STUDIO_CONFIG.CATALOG || {})[productSelectorEl.value];
+    brandSelectorEl.innerHTML = '';
+    if (!product) { brandGroupEl.style.display = 'none'; return; }
+    const brandKeys = Object.keys(product.brands || {});
+    brandKeys.forEach(b => {
+        const opt = document.createElement('option');
+        opt.value = b; opt.textContent = b;
+        brandSelectorEl.appendChild(opt);
+    });
+    brandGroupEl.style.display = brandKeys.length > 1 ? '' : 'none';
+}
+
+// Refresh the price / description panel from the current variant.
+function updateVariantDetails() {
+    const details = document.getElementById('variantDetails');
+    const v = currentVariant();
+    if (!v) { details.style.display = 'none'; return; }
+    details.style.display = '';
+    document.getElementById('variantPrice').textContent =
+        (v.price != null) ? fmtPrice(v.price) : '';
+    document.getElementById('variantBrandNote').textContent = v.brandNote;
+    document.getElementById('variantDescription').textContent = v.description;
+}
+
 loadProductAssets('30oz');
-document.getElementById('productSelector').addEventListener('change', (e) => loadProductAssets(e.target.value));
+populateBrands();
+updateVariantDetails();
+productSelectorEl.addEventListener('change', (e) => {
+    loadProductAssets(e.target.value);
+    populateBrands();
+    updateVariantDetails();
+});
+brandSelectorEl.addEventListener('change', updateVariantDetails);
 
 // ==========================================
 // 2. WIZARD NAVIGATION (Clickable Stepper)
@@ -771,6 +830,7 @@ document.getElementById('savePlaceOrderBtn').addEventListener('click', () => {
 let currentOrderId = new URLSearchParams(location.search).get('order') || null;
 let lastProofDataUrl = null;
 let lastOrderProduct = null;
+let lastOrderVariant = null;
 let lastOrderEmail = null;
 
 function genOrderId() {
@@ -782,8 +842,10 @@ function openOrderModal() {
         toast('Your canvas is empty — add a design first!', 'error');
         return;
     }
-    const sel = document.getElementById('productSelector');
-    document.getElementById('orderProductLabel').textContent = sel.options[sel.selectedIndex].text;
+    const v = currentVariant();
+    document.getElementById('orderProductLabel').textContent = v
+        ? (v.price != null ? `${v.label} — ${fmtPrice(v.price)}` : v.label)
+        : document.getElementById('productSelector').selectedOptions[0].text;
     const emailInput = document.getElementById('orderEmailInput');
     if (introEmail.value && introEmail.value.includes('@')) emailInput.value = introEmail.value;
     document.getElementById('orderModal').style.display = 'flex';
@@ -804,6 +866,7 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
 
     try {
         const sel = document.getElementById('productSelector');
+        const variant = currentVariant();
         const orderId = currentOrderId || genOrderId();
         const designJson = JSON.stringify(canvas.toDatalessJSON(['archAmount']));
         const printPng = getPrintReadyFile();
@@ -816,7 +879,10 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
                 body: JSON.stringify({
                     orderId, email,
                     product: sel.value,
-                    productLabel: sel.options[sel.selectedIndex].text,
+                    productLabel: variant ? variant.label : sel.selectedOptions[0].text,
+                    brand: variant ? variant.brandKey : null,
+                    buyNowId: variant ? variant.buyNowId : null,
+                    price: variant ? variant.price : null,
                     designJson,
                     printPng: printPng.split(',')[1],
                     previewJpg: lastProofDataUrl.split(',')[1]
@@ -838,6 +904,7 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
 
         designDirty = false;
         lastOrderProduct = sel.value;
+        lastOrderVariant = variant;
         lastOrderEmail = email;
         document.getElementById('orderModal').style.display = 'none';
         document.getElementById('orderNumberText').textContent = currentOrderId;
@@ -851,10 +918,10 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
     }
 });
 
-// Point the success screen at the right shop checkout for the ordered product.
-// PRODUCTS holds each product's "buy now" id; we build the checkout URL here.
-function checkoutUrlFor(product) {
-    const buyNowId = (STUDIO_CONFIG.PRODUCTS || {})[product] || '';
+// Point the success screen at the right shop checkout for the ordered variant.
+// Each brand variant carries its own "buy now" id; we build the URL from it.
+function checkoutUrlFor(variant) {
+    const buyNowId = variant && variant.buyNowId;
     if (!buyNowId) return '';
     const base = (STUDIO_CONFIG.SHOP_URL || '').replace(/\/$/, '');
     return `${base}/checkout?buyNowProductId=${encodeURIComponent(buyNowId)}`;
@@ -862,7 +929,7 @@ function checkoutUrlFor(product) {
 function configureCheckout(email) {
     const btn = document.getElementById('checkoutBtn');
     const copy = document.getElementById('orderSuccessCopy');
-    const url = checkoutUrlFor(lastOrderProduct);
+    const url = checkoutUrlFor(lastOrderVariant);
     if (url) {
         btn.style.display = '';
         copy.textContent = `We've saved your design for ${email}. Tap the copy button above to copy your order number, then Continue to Checkout — it opens in a new tab, so keep this one open. At checkout, paste your order number into the "Notes" field so we can match your payment to your design. You can request changes within ${STUDIO_CONFIG.REVIEW_WINDOW_HOURS} hours.`;
@@ -873,7 +940,7 @@ function configureCheckout(email) {
 }
 
 document.getElementById('checkoutBtn').addEventListener('click', () => {
-    const url = checkoutUrlFor(lastOrderProduct);
+    const url = checkoutUrlFor(lastOrderVariant);
     if (!url) return;
     const dest = `${url}&ref=${encodeURIComponent(currentOrderId)}&email=${encodeURIComponent(lastOrderEmail || '')}`;
     // Copy the order number now so it's ready to paste into the checkout "Notes"
@@ -910,6 +977,11 @@ if (currentOrderId && STUDIO_CONFIG.ORDER_API) {
                 if ([...sel.options].some(o => o.value === meta.product)) {
                     sel.value = meta.product;
                     loadProductAssets(meta.product);
+                    populateBrands();
+                    if (meta.brand && [...brandSelectorEl.options].some(o => o.value === meta.brand)) {
+                        brandSelectorEl.value = meta.brand;
+                    }
+                    updateVariantDetails();
                 }
             }
         }

@@ -55,6 +55,11 @@ body, html { height: 100%; width: 100%; font-family: 'Helvetica Neue', Helvetica
 .control-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; color: #e5e5e5; }
 .control-group select { width: 100%; padding: 12px; border: 1px solid #444; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.2s; background: #1a1a1a; color: #fff;}
 .control-group select:focus { border-color: #C8B6FF; }
+.variant-details { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 14px 16px; margin-bottom: 20px; }
+.variant-price { font-size: 1.5rem; font-weight: 800; color: #C8B6FF; }
+.variant-brand-note { margin: 6px 0 0; font-size: 0.85rem; font-weight: 600; color: #e5e5e5; }
+.variant-brand-note:empty { display: none; }
+.variant-description { margin: 10px 0 0; font-size: 0.85rem; line-height: 1.5; color: #b3b3b3; }
 .divider { height: 1px; background: #444; margin: 15px 0; width: 100%; }
 
 /* Tools & Buttons */
