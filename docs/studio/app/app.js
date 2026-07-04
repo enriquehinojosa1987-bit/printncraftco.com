@@ -861,7 +861,7 @@ function configureCheckout(email) {
     const url = checkoutUrlFor(lastOrderProduct);
     if (url) {
         btn.style.display = '';
-        copy.textContent = `We've saved your design for ${email}. Continue to checkout to pay — your order number is attached so we match it to your design. You can request changes within ${STUDIO_CONFIG.REVIEW_WINDOW_HOURS} hours.`;
+        copy.textContent = `We've saved your design for ${email}. Tap Buy Now to purchase — your order number rides along so we match it to your design. You can request changes within ${STUDIO_CONFIG.REVIEW_WINDOW_HOURS} hours.`;
     } else {
         btn.style.display = 'none';
         copy.textContent = `We've saved your design for ${email}. Online checkout for this product is coming soon — we'll email you to finish your order. (Order ${currentOrderId})`;
