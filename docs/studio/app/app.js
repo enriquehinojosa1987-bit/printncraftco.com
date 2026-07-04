@@ -770,6 +770,8 @@ document.getElementById('savePlaceOrderBtn').addEventListener('click', () => {
 // ==========================================
 let currentOrderId = new URLSearchParams(location.search).get('order') || null;
 let lastProofDataUrl = null;
+let lastOrderProduct = null;
+let lastOrderEmail = null;
 
 function genOrderId() {
     return 'PNC-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2, 7).toUpperCase();
@@ -835,10 +837,11 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
         }
 
         designDirty = false;
+        lastOrderProduct = sel.value;
+        lastOrderEmail = email;
         document.getElementById('orderModal').style.display = 'none';
         document.getElementById('orderNumberText').textContent = currentOrderId;
-        document.getElementById('orderSuccessCopy').textContent =
-            `We've saved your design for ${email}. You can request changes within ${STUDIO_CONFIG.REVIEW_WINDOW_HOURS} hours — after that we start production.`;
+        configureCheckout(email);
         document.getElementById('orderSuccessModal').style.display = 'flex';
     } catch (err) {
         toast('Could not save your order: ' + err.message, 'error');
@@ -846,6 +849,32 @@ document.getElementById('confirmOrderBtn').addEventListener('click', async () =>
         btn.disabled = false;
         btn.textContent = 'Yes, Place My Order';
     }
+});
+
+// Point the success screen at the right shop checkout for the ordered product.
+function checkoutUrlFor(product) {
+    return (STUDIO_CONFIG.PRODUCTS || {})[product] || '';
+}
+function configureCheckout(email) {
+    const btn = document.getElementById('checkoutBtn');
+    const copy = document.getElementById('orderSuccessCopy');
+    const url = checkoutUrlFor(lastOrderProduct);
+    if (url) {
+        btn.style.display = '';
+        copy.textContent = `We've saved your design for ${email}. Continue to checkout to pay — your order number is attached so we match it to your design. You can request changes within ${STUDIO_CONFIG.REVIEW_WINDOW_HOURS} hours.`;
+    } else {
+        btn.style.display = 'none';
+        copy.textContent = `We've saved your design for ${email}. Online checkout for this product is coming soon — we'll email you to finish your order. (Order ${currentOrderId})`;
+    }
+}
+
+document.getElementById('checkoutBtn').addEventListener('click', () => {
+    const url = checkoutUrlFor(lastOrderProduct);
+    if (!url) return;
+    const sep = url.includes('?') ? '&' : '?';
+    const dest = `${url}${sep}ref=${encodeURIComponent(currentOrderId)}&email=${encodeURIComponent(lastOrderEmail || '')}`;
+    // Break out of the studio iframe so the whole page goes to checkout
+    (window.top || window).location.href = dest;
 });
 
 document.getElementById('downloadProofBtn').addEventListener('click', () => {
