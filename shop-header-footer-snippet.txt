@@ -1,0 +1,233 @@
+<!--
+  Shop subdomain (shop.printncraftco.com) header + footer — SELF-CONTAINED version.
+  The shop's old custom CSS was removed, so all needed styles are included below,
+  scoped to #pncNav / #pncFooter so they won't affect the GHL store elements.
+  Matches printncraftco.com nav/footer (includes the new "Print" section).
+
+  Paste the HEADER block into the shop's header custom-code area,
+  and the FOOTER block into the footer custom-code area.
+-->
+
+<!-- ===================== HEADER ===================== -->
+<style>
+:root {
+    --brand-purple: #C8B6FF;
+    --brand-orange: #FFD1B3;
+    --brand-pink: #FAD0E6;
+    --text-dark: #111111;
+    --text-light: #FFFFFF;
+}
+
+#pncNav {
+    width: 100%;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4vw;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#pncNav .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#pncNav { position: relative; }
+
+#pncNav a {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: opacity 0.3s ease;
+}
+
+#pncNav a:hover { opacity: 0.7; }
+
+#pncNav .nav-brand img {
+    height: 35px;
+    width: auto;
+    display: block;
+}
+
+#pncNav .cart-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#pncNav .cart-icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    fill: none;
+    stroke: var(--text-dark);
+    stroke-width: 1.5;
+    transition: transform 0.2s;
+}
+
+#pncNav .cart-icon:hover { transform: scale(1.1); }
+
+#pncNav .cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: linear-gradient(135deg, var(--brand-orange), var(--brand-pink), var(--brand-purple));
+    color: var(--text-dark);
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    border-radius: 50px;
+    padding: 0 4px;
+}
+
+@media (max-width: 900px) {
+    #pncNav .nav-links { display: none; }
+}
+</style>
+
+<nav id="pncNav">
+    <a href="https://printncraftco.com/" class="nav-brand">
+        <img src="https://printncraftco.com/brand/n-icon.svg" alt="Print &amp; Craft Co.">
+    </a>
+
+    <div class="nav-links">
+        <a href="https://printncraftco.com/studio">Creator Studio</a>
+        <a href="https://shop.printncraftco.com/products-list/collections/apparel">Apparel</a>
+        <a href="https://shop.printncraftco.com/products-list/collections/drinkware">Drinkware</a>
+        <a href="https://shop.printncraftco.com/products-list/collections/accessories">Accessories</a>
+        <a href="https://shop.printncraftco.com/products-list/collections/print">Print</a>
+        <a href="https://shop.printncraftco.com/products-list">All Products</a>
+        <a href="https://printncraftco.com/about_us">About Us</a>
+    </div>
+
+    <a href="https://shop.printncraftco.com/cart" class="cart-container">
+        <svg class="cart-icon" viewBox="0 0 24 24">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span id="cart-badge" class="cart-badge">0</span>
+    </a>
+</nav>
+
+<!-- ===================== FOOTER ===================== -->
+<style>
+#pncFooter {
+    background-color: #111111;
+    color: #FFFFFF;
+    padding: 80px 8vw 40px 8vw;
+    font-size: 14px;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+#pncFooter .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 220px));
+    justify-content: center;
+    gap: 60px;
+    max-width: 900px;
+    margin: 0 auto 80px auto;
+}
+
+#pncFooter .footer-col h4 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 20px 0;
+    color: #666;
+}
+
+#pncFooter .footer-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#pncFooter .footer-col ul li { margin-bottom: 12px; }
+
+#pncFooter .footer-col ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+#pncFooter .footer-col ul li a:hover { color: #FFD1B3; }
+
+#pncFooter .footer-bottom {
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: #666;
+    font-size: 12px;
+}
+
+#pncFooter .footer-bottom p { margin: 0; }
+
+@media (max-width: 900px) {
+    #pncFooter .footer-grid {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+    }
+}
+</style>
+
+<footer id="pncFooter">
+    <div class="footer-grid">
+        <div class="footer-logo" style="grid-column: 1 / -1; order: 2; text-align: center; margin-top: 30px;">
+            <img src="https://printncraftco.com/brand/logo-landscape.svg" alt="Print &amp; Craft Co." style="height: 40px; width: auto;">
+        </div>
+        <div class="footer-col">
+            <h4>Shop</h4>
+            <ul>
+                <li><a href="https://shop.printncraftco.com/products-list">All Products</a></li>
+                <li><a href="https://shop.printncraftco.com/products-list/collections/apparel">Apparel</a></li>
+                <li><a href="https://shop.printncraftco.com/products-list/collections/drinkware">Drinkware</a></li>
+                <li><a href="https://shop.printncraftco.com/products-list/collections/accessories">Accessories</a></li>
+                <li><a href="https://shop.printncraftco.com/products-list/collections/print">Print</a></li>
+                <li><a href="https://printncraftco.com/business_solutions">Business Solutions</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Studio</h4>
+            <ul>
+                <li><a href="https://printncraftco.com/studio">Creator Studio</a></li>
+                <li><a href="https://shop.printncraftco.com/products-list/collections/custom-orders">Custom Orders</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Support</h4>
+            <ul>
+                <li><a href="https://printncraftco.com/about_us">About Us</a></li>
+                <li><a href="https://printncraftco.com/about_us#contact">Contact Us</a></li>
+                <li><a href="https://printncraftco.com/faq">FAQ</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Print N Craft Co. All rights reserved.</p>
+        <p>
+            <a href="https://printncraftco.com/terms_of_service" style="color: #aaa; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">Terms of Service</a>
+            |
+            <a href="https://printncraftco.com/privacy_policy" style="color: #aaa; text-decoration: none;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#aaa'">Privacy Policy</a>
+        </p>
+    </div>
+</footer>
