@@ -69,6 +69,160 @@ body {
 
 .editorial-hero .hero-cta { margin-top: 34px; }
 
+/* --- Gallery --- */
+.gallery-section { margin-bottom: 90px; }
+.gallery-tabs, .lightbox-cats {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.gallery-tabs {
+    max-width: 1300px;
+    margin: 0 auto 24px;
+    padding: 0 5vw;
+}
+.gallery-tab {
+    background: transparent;
+    border: 1px solid #333;
+    color: #aaa;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 22px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.25s;
+}
+.gallery-tab:hover { border-color: #666; color: var(--text-light); }
+.gallery-tab.active {
+    background: linear-gradient(135deg, var(--brand-orange), var(--brand-pink), var(--brand-purple));
+    border-color: transparent;
+    color: var(--text-dark);
+}
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 5vw;
+}
+.gallery-tile {
+    position: relative;
+    border: none;
+    padding: 0;
+    background: var(--card-dark);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 1 / 1;
+}
+.gallery-tile img, .gallery-tile video {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gallery-tile:hover img, .gallery-tile:hover video { transform: scale(1.05); }
+.gallery-tile .tile-cat {
+    position: absolute;
+    bottom: 12px; left: 12px;
+    background: rgba(17,17,17,0.7);
+    backdrop-filter: blur(8px);
+    color: var(--text-light);
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 50px;
+    pointer-events: none;
+}
+.gallery-tile .play-badge {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: rgba(17,17,17,0.65);
+    backdrop-filter: blur(6px);
+    color: var(--text-light);
+    font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    padding-left: 4px;
+    pointer-events: none;
+}
+
+/* --- Lightbox --- */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(10,10,10,0.94);
+    backdrop-filter: blur(12px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.lightbox.open { display: flex; }
+.lightbox-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 5vw;
+}
+.lightbox-close {
+    background: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 34px;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.lightbox-close:hover { color: var(--text-light); }
+.lightbox-stage {
+    max-width: min(1100px, 84vw);
+    max-height: 72vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lightbox-stage img, .lightbox-stage video {
+    max-width: 100%;
+    max-height: 72vh;
+    border-radius: 12px;
+    object-fit: contain;
+}
+.lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid #333;
+    color: var(--text-light);
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.lightbox-arrow:hover { background: rgba(255,255,255,0.15); }
+.lightbox-arrow.prev { left: 3vw; }
+.lightbox-arrow.next { right: 3vw; }
+.lightbox-count {
+    position: absolute;
+    bottom: 24px;
+    color: #888;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
 /* --- Magazine feature rows --- */
 .feature {
     display: grid;
@@ -286,7 +440,12 @@ body {
     .category-grid { grid-template-columns: 1fr 1fr; }
     .editorial-hero { padding: 60px 6vw 40px; }
 }
+@media (max-width: 900px) {
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 560px) {
     .category-grid { grid-template-columns: 1fr; }
     .category-card { min-height: 300px; }
+    .lightbox-arrow.prev { left: 2vw; }
+    .lightbox-arrow.next { right: 2vw; }
 }
