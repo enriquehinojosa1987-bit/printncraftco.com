@@ -326,7 +326,7 @@ body {
 /* --- Category cards (hub page) --- */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 15px;
     max-width: 1300px;
     margin: 0 auto 90px;

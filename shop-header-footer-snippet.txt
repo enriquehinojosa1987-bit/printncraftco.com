@@ -111,6 +111,7 @@
         <a href="https://printncraftco.com/products/drinkware">Drinkware</a>
         <a href="https://printncraftco.com/products/accessories">Accessories</a>
         <a href="https://printncraftco.com/products/print">Prints</a>
+        <a href="https://printncraftco.com/products/signs">Signs</a>
         <a href="https://printncraftco.com/products">All Products</a>
         <a href="https://printncraftco.com/about_us">About Us</a>
     </div>
@@ -260,6 +261,7 @@
                 <li><a href="https://printncraftco.com/products/drinkware">Drinkware</a></li>
                 <li><a href="https://printncraftco.com/products/accessories">Accessories</a></li>
                 <li><a href="https://printncraftco.com/products/print">Prints</a></li>
+                <li><a href="https://printncraftco.com/products/signs">Signs</a></li>
                 <li><a href="https://printncraftco.com/business_solutions">Business Solutions</a></li>
             </ul>
         </div>

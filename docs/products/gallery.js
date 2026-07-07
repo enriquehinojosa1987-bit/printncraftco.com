@@ -16,13 +16,17 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "https://assets.cdn.filesafe.space/Gom39K4Ph1omNjbKNE3e/media/69cbbfb5f6b7af64f5d813bf.png", alt: "Custom canvas" },
         { type: "video", src: "/media/hero.mp4", alt: "Print & Craft Co. showcase" },
     ],
+    signs: [
+        { type: "image", src: "https://assets.cdn.filesafe.space/MVgEiWH9Alr45LoREemP/media/66e1c47591ef8c1563c4e236.jpeg", alt: "Custom vinyl banners" },
+        { type: "image", src: "https://assets.cdn.filesafe.space/MVgEiWH9Alr45LoREemP/media/66e1c224bb4482a61bdd6f22.webp", alt: "Coroplast yard signs" },
+    ],
     prints: [
         { type: "image", src: "https://assets.cdn.filesafe.space/Gom39K4Ph1omNjbKNE3e/media/66c37448c77c0b173b4c7dfe.png", alt: "Custom HTV prints" },
         { type: "image", src: "https://assets.cdn.filesafe.space/Gom39K4Ph1omNjbKNE3e/media/66e0f976163e2604e3d2da1f.jpeg", alt: "Sublimation print patterns" },
     ],
 };
 
-const GALLERY_LABELS = { apparel: "Apparel", drinkware: "Drinkware", accessories: "Accessories", prints: "Prints" };
+const GALLERY_LABELS = { apparel: "Apparel", drinkware: "Drinkware", accessories: "Accessories", prints: "Prints", signs: "Signs" };
 
 (function () {
     const root = document.getElementById("gallery");
