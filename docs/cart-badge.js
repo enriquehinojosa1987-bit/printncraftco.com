@@ -14,6 +14,8 @@
         for (var i = 0; i < badges.length; i++) {
             badges[i].textContent = n;
             badges[i].style.display = n > 0 ? '' : 'none';
+            // homepage badge CSS shows it via .active (opacity/scale)
+            badges[i].classList.toggle('active', n > 0);
         }
     }
     paint();
