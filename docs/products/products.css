@@ -67,6 +67,8 @@ body {
     color: #AAAAAA;
 }
 
+.editorial-hero .hero-cta { margin-top: 34px; }
+
 /* --- Magazine feature rows --- */
 .feature {
     display: grid;
@@ -239,13 +241,45 @@ body {
 .more-strip span { color: #777; font-size: 0.9rem; margin-right: 8px; }
 
 /* --- Footer (matches site) --- */
-footer { background: var(--text-dark); border-top: 1px solid #222; padding: 40px 5vw; text-align: center; margin-top: auto; }
-footer img { height: 34px; width: auto; margin-bottom: 12px; }
-footer p { color: #777; font-size: 13px; }
-footer a { color: #aaa; text-decoration: none; }
+.site-footer {
+    background: var(--text-dark);
+    border-top: 1px solid #222;
+    padding: 70px 8vw 30px;
+    font-size: 14px;
+    margin-top: auto;
+}
+.site-footer .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 220px));
+    justify-content: center;
+    gap: 60px;
+    max-width: 900px;
+    margin: 0 auto 60px;
+}
+.site-footer .footer-col h4 {
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 20px; color: #666;
+}
+.site-footer .footer-col ul { list-style: none; }
+.site-footer .footer-col ul li { margin-bottom: 12px; }
+.site-footer .footer-col ul li a { color: #ccc; text-decoration: none; transition: color 0.2s; }
+.site-footer .footer-col ul li a:hover { color: var(--brand-orange); }
+.site-footer .footer-bottom {
+    border-top: 1px solid #333;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: #666;
+    font-size: 12px;
+}
+.site-footer .footer-bottom a { color: #aaa; text-decoration: none; }
+.site-footer .footer-bottom a:hover { color: var(--text-light); }
 
 @media (max-width: 900px) {
     .nav-links { display: none; }
+    .site-footer .footer-grid { grid-template-columns: 1fr; justify-items: center; text-align: center; }
     .feature { grid-template-columns: 1fr; margin-bottom: 60px; }
     .feature:nth-of-type(even) .feature-media { order: 0; }
     .feature-copy { padding: 30px 2vw 0; }

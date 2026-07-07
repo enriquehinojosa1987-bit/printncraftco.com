@@ -2,7 +2,8 @@
   Shop subdomain (shop.printncraftco.com) header + footer — SELF-CONTAINED version.
   The shop's old custom CSS was removed, so all needed styles are included below,
   scoped to #pncNav / #pncFooter so they won't affect the GHL store elements.
-  Matches printncraftco.com nav/footer (includes the new "Print" section).
+  Matches printncraftco.com nav/footer: category links go to the editorial
+  pages on the main site (printncraftco.com/products/...); the cart stays on the shop.
 
   Paste the HEADER block into the shop's header custom-code area,
   and the FOOTER block into the footer custom-code area.
@@ -106,11 +107,11 @@
 
     <div class="nav-links">
         <a href="https://printncraftco.com/studio">Creator Studio</a>
-        <a href="https://shop.printncraftco.com/products-list/collections/apparel">Apparel</a>
-        <a href="https://shop.printncraftco.com/products-list/collections/drinkware">Drinkware</a>
-        <a href="https://shop.printncraftco.com/products-list/collections/accessories">Accessories</a>
-        <a href="https://shop.printncraftco.com/products-list/collections/print">Prints</a>
-        <a href="https://shop.printncraftco.com/products-list">All Products</a>
+        <a href="https://printncraftco.com/products/apparel">Apparel</a>
+        <a href="https://printncraftco.com/products/drinkware">Drinkware</a>
+        <a href="https://printncraftco.com/products/accessories">Accessories</a>
+        <a href="https://printncraftco.com/products/print">Prints</a>
+        <a href="https://printncraftco.com/products">All Products</a>
         <a href="https://printncraftco.com/about_us">About Us</a>
     </div>
 
@@ -198,11 +199,11 @@
         <div class="footer-col">
             <h4>Shop</h4>
             <ul>
-                <li><a href="https://shop.printncraftco.com/products-list">All Products</a></li>
-                <li><a href="https://shop.printncraftco.com/products-list/collections/apparel">Apparel</a></li>
-                <li><a href="https://shop.printncraftco.com/products-list/collections/drinkware">Drinkware</a></li>
-                <li><a href="https://shop.printncraftco.com/products-list/collections/accessories">Accessories</a></li>
-                <li><a href="https://shop.printncraftco.com/products-list/collections/print">Prints</a></li>
+                <li><a href="https://printncraftco.com/products">All Products</a></li>
+                <li><a href="https://printncraftco.com/products/apparel">Apparel</a></li>
+                <li><a href="https://printncraftco.com/products/drinkware">Drinkware</a></li>
+                <li><a href="https://printncraftco.com/products/accessories">Accessories</a></li>
+                <li><a href="https://printncraftco.com/products/print">Prints</a></li>
                 <li><a href="https://printncraftco.com/business_solutions">Business Solutions</a></li>
             </ul>
         </div>
