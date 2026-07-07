@@ -125,6 +125,61 @@
     </a>
 </nav>
 
+<script>
+/* Cart badge sync (shop side).
+   Reads the GHL store cart from localStorage/sessionStorage, paints the
+   badge in this header, and writes the count into a cookie scoped to
+   .printncraftco.com so the main site's header can show the same count. */
+(function () {
+    function countIn(v) {
+        if (!v || typeof v !== 'object') return null;
+        var arr = Array.isArray(v) ? v
+                : Array.isArray(v.items) ? v.items
+                : Array.isArray(v.cart) ? v.cart
+                : (v.cart && Array.isArray(v.cart.items)) ? v.cart.items
+                : null;
+        if (!arr) return null;
+        var total = 0, looksLikeCart = false;
+        for (var i = 0; i < arr.length; i++) {
+            var it = arr[i];
+            if (!it || typeof it !== 'object') return null;
+            if ('quantity' in it || 'qty' in it || 'productId' in it || 'priceId' in it) looksLikeCart = true;
+            total += parseInt(it.quantity || it.qty || 1, 10) || 1;
+        }
+        return looksLikeCart ? total : null;
+    }
+    function readCartCount() {
+        var stores = [window.localStorage, window.sessionStorage];
+        var best = null;
+        for (var s = 0; s < stores.length; s++) {
+            var store = stores[s];
+            for (var i = 0; i < store.length; i++) {
+                var key = store.key(i);
+                if (!/cart/i.test(key)) continue;
+                try {
+                    var c = countIn(JSON.parse(store.getItem(key)));
+                    if (c !== null) best = Math.max(best === null ? 0 : best, c);
+                } catch (e) { /* not JSON, skip */ }
+            }
+        }
+        return best === null ? 0 : best;
+    }
+    function sync() {
+        var n = readCartCount();
+        var badges = document.querySelectorAll('.cart-badge');
+        for (var i = 0; i < badges.length; i++) {
+            badges[i].textContent = n;
+            badges[i].style.display = n > 0 ? '' : 'none';
+        }
+        document.cookie = 'pnc_cart_count=' + n +
+            '; domain=.printncraftco.com; path=/; max-age=604800; SameSite=Lax';
+    }
+    sync();
+    window.addEventListener('storage', sync);
+    setInterval(sync, 2000);
+})();
+</script>
+
 <!-- ===================== FOOTER ===================== -->
 <style>
 #pncFooter {
