@@ -2,18 +2,24 @@
 """Sync the products gallery from gallery-originals/ to the website.
 
 Source of truth: gallery-originals/<folder>/ at the repo root.
+Incremental: each original maps to a stable output name (slug + content
+hash), so unchanged files are skipped, additions encode only the new
+files, and outputs whose original is gone get deleted. A sync commit
+therefore contains only what actually changed.
+
 For each category folder, this script:
-  - wipes docs/products/gallery/<category>/ (except .gitkeep)
-  - re-encodes every image to max 1600px JPEG (quality 80)
-  - re-encodes every .mov/.mp4 video to web H.264 mp4 (max 1280px wide)
+  - encodes new images to max 1600px JPEG (quality 80)
+  - encodes new .mov/.mp4 videos to web H.264 mp4 (max 1280px wide)
+  - removes outputs whose original no longer exists
   - regenerates GALLERY_MANIFEST inside docs/products/gallery.js
 
 Folders that don't match a category (e.g. "drinkware hidden") are ignored.
-Display order = alphabetical filename order within each folder.
+Display order = alphabetical original-filename order within each folder.
 
 Usage: python3 scripts/sync-gallery.py
 """
 import glob
+import hashlib
 import json
 import os
 import re
@@ -36,45 +42,69 @@ VID_EXT = {".mov", ".mp4", ".m4v"}
 manifest = {}
 failures = []
 
+def stable_name(path):
+    """Slug of the original filename + short content hash — stable across
+    runs, changes only if the file's bytes change."""
+    base = os.path.splitext(os.path.basename(path))[0]
+    slug = re.sub(r"-+", "-", re.sub(r"[^a-z0-9]+", "-", base.lower())).strip("-")[:40] or "item"
+    h = hashlib.md5()
+    with open(path, "rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return f"{slug}-{h.hexdigest()[:6]}"
+
 for folder, cat in CATS.items():
     srcdir = os.path.join(SRC, folder)
     outdir = os.path.join(DST, cat)
     os.makedirs(outdir, exist_ok=True)
-    for old in glob.glob(os.path.join(outdir, "*")):
-        if not old.endswith(".gitkeep"):
-            os.remove(old)
     files = sorted(
         (f for f in glob.glob(os.path.join(srcdir, "*")) if os.path.isfile(f)
          and os.path.basename(f) != ".DS_Store"),
         key=lambda f: os.path.basename(f).lower())
     entries = []
-    n = 0
+    expected = set()
+    new = skipped = 0
     for f in files:
         ext = os.path.splitext(f)[1].lower()
-        n += 1
         if ext in VID_EXT:
-            out = os.path.join(outdir, f"{cat}-{n:03d}.mp4")
-            r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", f,
-                "-vf", "scale='min(1280,iw)':-2", "-c:v", "libx264",
-                "-preset", "medium", "-crf", "26", "-movflags", "+faststart",
-                "-c:a", "aac", "-b:a", "96k", out], capture_output=True, text=True)
-            if r.returncode != 0:
-                failures.append((f, r.stderr[:200])); n -= 1; continue
-            entries.append({"type": "video",
-                            "src": f"/products/gallery/{cat}/{cat}-{n:03d}.mp4"})
+            fname = stable_name(f) + ".mp4"
+            out = os.path.join(outdir, fname)
+            expected.add(fname)
+            if not os.path.exists(out):
+                r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", f,
+                    "-vf", "scale='min(1280,iw)':-2", "-c:v", "libx264",
+                    "-preset", "medium", "-crf", "26", "-movflags", "+faststart",
+                    "-c:a", "aac", "-b:a", "96k", out], capture_output=True, text=True)
+                if r.returncode != 0:
+                    failures.append((f, r.stderr[:200])); expected.discard(fname); continue
+                new += 1
+            else:
+                skipped += 1
+            entries.append({"type": "video", "src": f"/products/gallery/{cat}/{fname}"})
         elif ext in IMG_EXT:
-            out = os.path.join(outdir, f"{cat}-{n:03d}.jpg")
-            r = subprocess.run(["sips", "-Z", "1600", "-s", "format", "jpeg",
-                "-s", "formatOptions", "80", f, "--out", out],
-                capture_output=True, text=True)
-            if r.returncode != 0:
-                failures.append((f, r.stderr[:150])); n -= 1; continue
-            entries.append({"type": "image",
-                            "src": f"/products/gallery/{cat}/{cat}-{n:03d}.jpg"})
+            fname = stable_name(f) + ".jpg"
+            out = os.path.join(outdir, fname)
+            expected.add(fname)
+            if not os.path.exists(out):
+                r = subprocess.run(["sips", "-Z", "1600", "-s", "format", "jpeg",
+                    "-s", "formatOptions", "80", f, "--out", out],
+                    capture_output=True, text=True)
+                if r.returncode != 0:
+                    failures.append((f, r.stderr[:150])); expected.discard(fname); continue
+                new += 1
+            else:
+                skipped += 1
+            entries.append({"type": "image", "src": f"/products/gallery/{cat}/{fname}"})
         else:
-            failures.append((f, f"unsupported extension {ext}")); n -= 1
+            failures.append((f, f"unsupported extension {ext}"))
+    # delete outputs whose original is gone
+    removed = 0
+    for old in glob.glob(os.path.join(outdir, "*")):
+        b = os.path.basename(old)
+        if b != ".gitkeep" and b not in expected:
+            os.remove(old); removed += 1
     manifest[cat] = entries
-    print(f"{cat}: {len(entries)} items")
+    print(f"{cat}: {len(entries)} items ({new} new, {skipped} unchanged, {removed} removed)")
 
 # rewrite GALLERY_MANIFEST in gallery.js
 lines = ["const GALLERY_MANIFEST = {"]
