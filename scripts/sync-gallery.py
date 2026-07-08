@@ -64,11 +64,15 @@ for folder, cat in CATS.items():
     entries = []
     expected = set()
     new = skipped = 0
+    thumbdir = os.path.join(outdir, "thumbs")
+    os.makedirs(thumbdir, exist_ok=True)
     for f in files:
         ext = os.path.splitext(f)[1].lower()
         if ext in VID_EXT:
-            fname = stable_name(f) + ".mp4"
+            stem = stable_name(f)
+            fname = stem + ".mp4"
             out = os.path.join(outdir, fname)
+            thumb = os.path.join(thumbdir, stem + ".jpg")
             expected.add(fname)
             if not os.path.exists(out):
                 r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", f,
@@ -80,10 +84,19 @@ for folder, cat in CATS.items():
                 new += 1
             else:
                 skipped += 1
-            entries.append({"type": "video", "src": f"/products/gallery/{cat}/{fname}"})
+            expected.add("thumbs/" + stem + ".jpg")
+            if not os.path.exists(thumb):
+                # poster frame from 1s in, thumbnail-sized
+                subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", "1",
+                    "-i", out, "-frames:v", "1", "-vf", "scale='min(480,iw)':-2",
+                    "-q:v", "5", thumb], capture_output=True, text=True)
+            entries.append({"type": "video", "src": f"/products/gallery/{cat}/{fname}",
+                            "thumb": f"/products/gallery/{cat}/thumbs/{stem}.jpg"})
         elif ext in IMG_EXT:
-            fname = stable_name(f) + ".jpg"
+            stem = stable_name(f)
+            fname = stem + ".jpg"
             out = os.path.join(outdir, fname)
+            thumb = os.path.join(thumbdir, fname)
             expected.add(fname)
             if not os.path.exists(out):
                 r = subprocess.run(["sips", "-Z", "1600", "-s", "format", "jpeg",
@@ -94,14 +107,22 @@ for folder, cat in CATS.items():
                 new += 1
             else:
                 skipped += 1
-            entries.append({"type": "image", "src": f"/products/gallery/{cat}/{fname}"})
+            expected.add("thumbs/" + fname)
+            if not os.path.exists(thumb):
+                subprocess.run(["sips", "-Z", "480", "-s", "format", "jpeg",
+                    "-s", "formatOptions", "70", out, "--out", thumb],
+                    capture_output=True, text=True)
+            entries.append({"type": "image", "src": f"/products/gallery/{cat}/{fname}",
+                            "thumb": f"/products/gallery/{cat}/thumbs/{fname}"})
         else:
             failures.append((f, f"unsupported extension {ext}"))
-    # delete outputs whose original is gone
+    # delete outputs (and thumbs) whose original is gone
     removed = 0
-    for old in glob.glob(os.path.join(outdir, "*")):
-        b = os.path.basename(old)
-        if b != ".gitkeep" and b not in expected:
+    for old in glob.glob(os.path.join(outdir, "*")) + glob.glob(os.path.join(thumbdir, "*")):
+        if os.path.isdir(old):
+            continue
+        rel = os.path.relpath(old, outdir)
+        if os.path.basename(old) != ".gitkeep" and rel not in expected:
             os.remove(old); removed += 1
     manifest[cat] = entries
     print(f"{cat}: {len(entries)} items ({new} new, {skipped} unchanged, {removed} removed)")
@@ -112,7 +133,7 @@ for cat in ["apparel", "drinkware", "accessories", "signs", "prints"]:
     lines.append(f"    {cat}: [")
     for e in manifest[cat]:
         alt = f"Custom {LABEL[cat].lower()} by Print & Craft Co."
-        lines.append(f'        {{ type: "{e["type"]}", src: "{e["src"]}", alt: "{alt}" }},')
+        lines.append(f'        {{ type: "{e["type"]}", src: "{e["src"]}", thumb: "{e["thumb"]}", alt: "{alt}" }},')
     lines.append("    ],")
 lines.append("};")
 block = "\n".join(lines)
