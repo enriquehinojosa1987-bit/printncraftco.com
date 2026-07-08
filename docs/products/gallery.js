@@ -134,34 +134,11 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/apparel/static-shirt-sample-21738c.jpg", thumb: "/products/gallery/apparel/thumbs/static-shirt-sample-21738c.jpg", alt: "Custom apparel by Print & Craft Co." },
     ],
     drinkware: [
-        { type: "image", src: "/products/gallery/drinkware/4949999998-808c41.jpg", thumb: "/products/gallery/drinkware/thumbs/4949999998-808c41.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/america-blank-b6f002.jpg", thumb: "/products/gallery/drinkware/thumbs/america-blank-b6f002.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/annetestarbucks33-093684.jpg", thumb: "/products/gallery/drinkware/thumbs/annetestarbucks33-093684.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/army-veteran-moreno-30-oz-airbonre2-2ab432.jpg", thumb: "/products/gallery/drinkware/thumbs/army-veteran-moreno-30-oz-airbonre2-2ab432.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/beauty-and-the-beast-m-mendoza-30-oz-0c713c.jpg", thumb: "/products/gallery/drinkware/thumbs/beauty-and-the-beast-m-mendoza-30-oz-0c713c.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/blackangel-fe41fe.jpg", thumb: "/products/gallery/drinkware/thumbs/blackangel-fe41fe.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/brunomars-57b22e.jpg", thumb: "/products/gallery/drinkware/thumbs/brunomars-57b22e.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/capture16431-db47be.jpg", thumb: "/products/gallery/drinkware/thumbs/capture16431-db47be.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/capture2-db513e.jpg", thumb: "/products/gallery/drinkware/thumbs/capture2-db513e.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/capture79879411111-bf5676.jpg", thumb: "/products/gallery/drinkware/thumbs/capture79879411111-bf5676.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/capture988888-7b758f.jpg", thumb: "/products/gallery/drinkware/thumbs/capture988888-7b758f.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/desktop-2017-07-24-15-40-48-c7be9f.jpg", thumb: "/products/gallery/drinkware/thumbs/desktop-2017-07-24-15-40-48-c7be9f.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/desktop-2017-08-03-15-10-55-copy-2-5f31a0.jpg", thumb: "/products/gallery/drinkware/thumbs/desktop-2017-08-03-15-10-55-copy-2-5f31a0.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/desktop-2017-08-03-16-07-38-00e393.jpg", thumb: "/products/gallery/drinkware/thumbs/desktop-2017-08-03-16-07-38-00e393.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/desktop-2017-08-03-16-12-28-9eae9a.jpg", thumb: "/products/gallery/drinkware/thumbs/desktop-2017-08-03-16-12-28-9eae9a.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/desktop-2017-08-03-16-58-24-a14929.jpg", thumb: "/products/gallery/drinkware/thumbs/desktop-2017-08-03-16-58-24-a14929.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/desktop-2017-08-03-19-17-42-ba7fb1.jpg", thumb: "/products/gallery/drinkware/thumbs/desktop-2017-08-03-19-17-42-ba7fb1.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/desktop-2017-08-03-19-18-18-335d29.jpg", thumb: "/products/gallery/drinkware/thumbs/desktop-2017-08-03-19-18-18-335d29.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/desktop-2017-08-07-16-00-10-7d542c.jpg", thumb: "/products/gallery/drinkware/thumbs/desktop-2017-08-07-16-00-10-7d542c.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/desktop-2017-12-27-14-48-01-9256f6.jpg", thumb: "/products/gallery/drinkware/thumbs/desktop-2017-12-27-14-48-01-9256f6.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/desktop-2017-12-27-20-50-52-f8dea1.jpg", thumb: "/products/gallery/drinkware/thumbs/desktop-2017-12-27-20-50-52-f8dea1.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/img-0997a-b8c5de.jpg", thumb: "/products/gallery/drinkware/thumbs/img-0997a-b8c5de.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/img-0998-7da762.jpg", thumb: "/products/gallery/drinkware/thumbs/img-0998-7da762.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/img-2193-8e83a0.jpg", thumb: "/products/gallery/drinkware/thumbs/img-2193-8e83a0.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/img-2560-838a56.jpg", thumb: "/products/gallery/drinkware/thumbs/img-2560-838a56.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/img-3403-8f3771.jpg", thumb: "/products/gallery/drinkware/thumbs/img-3403-8f3771.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/img-3714-cfd4ca.jpg", thumb: "/products/gallery/drinkware/thumbs/img-3714-cfd4ca.jpg", alt: "Custom drinkware by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/drinkware/img-3715-543e71.jpg", thumb: "/products/gallery/drinkware/thumbs/img-3715-543e71.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/img-3767-acbf7f.jpg", thumb: "/products/gallery/drinkware/thumbs/img-3767-acbf7f.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/img-3768-1598c5.jpg", thumb: "/products/gallery/drinkware/thumbs/img-3768-1598c5.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/img-3769-939791.jpg", thumb: "/products/gallery/drinkware/thumbs/img-3769-939791.jpg", alt: "Custom drinkware by Print & Craft Co." },
@@ -211,6 +188,7 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/drinkware/photo-dec-31-12-13-00-pm-31bf27.jpg", thumb: "/products/gallery/drinkware/thumbs/photo-dec-31-12-13-00-pm-31bf27.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/photo-dec-31-12-18-24-pm-3d87dc.jpg", thumb: "/products/gallery/drinkware/thumbs/photo-dec-31-12-18-24-pm-3d87dc.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/photo-jan-11-7-17-08-pm-21c48c.jpg", thumb: "/products/gallery/drinkware/thumbs/photo-jan-11-7-17-08-pm-21c48c.jpg", alt: "Custom drinkware by Print & Craft Co." },
+        { type: "image", src: "/products/gallery/drinkware/photo-jan-11-7-18-34-pm-b5709b.jpg", thumb: "/products/gallery/drinkware/thumbs/photo-jan-11-7-18-34-pm-b5709b.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/photo-jan-12-10-03-23-am-a1b80d.jpg", thumb: "/products/gallery/drinkware/thumbs/photo-jan-12-10-03-23-am-a1b80d.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/photo-jan-12-4-07-29-pm-27bcc1.jpg", thumb: "/products/gallery/drinkware/thumbs/photo-jan-12-4-07-29-pm-27bcc1.jpg", alt: "Custom drinkware by Print & Craft Co." },
         { type: "image", src: "/products/gallery/drinkware/photo-jan-12-4-08-46-pm-859090.jpg", thumb: "/products/gallery/drinkware/thumbs/photo-jan-12-4-08-46-pm-859090.jpg", alt: "Custom drinkware by Print & Craft Co." },
@@ -263,7 +241,6 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/accessories/img-4566-c37e7f.jpg", thumb: "/products/gallery/accessories/thumbs/img-4566-c37e7f.jpg", alt: "Custom accessories by Print & Craft Co." },
         { type: "video", src: "/products/gallery/accessories/img-4566-b1a6e4.mp4", thumb: "/products/gallery/accessories/thumbs/img-4566-b1a6e4.jpg", alt: "Custom accessories by Print & Craft Co." },
         { type: "image", src: "/products/gallery/accessories/img-4821-770ec0.jpg", thumb: "/products/gallery/accessories/thumbs/img-4821-770ec0.jpg", alt: "Custom accessories by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/accessories/img-5173-637250.jpg", thumb: "/products/gallery/accessories/thumbs/img-5173-637250.jpg", alt: "Custom accessories by Print & Craft Co." },
         { type: "image", src: "/products/gallery/accessories/img-5613-dfa36b.jpg", thumb: "/products/gallery/accessories/thumbs/img-5613-dfa36b.jpg", alt: "Custom accessories by Print & Craft Co." },
         { type: "image", src: "/products/gallery/accessories/img-5616-a1689b.jpg", thumb: "/products/gallery/accessories/thumbs/img-5616-a1689b.jpg", alt: "Custom accessories by Print & Craft Co." },
         { type: "video", src: "/products/gallery/accessories/img-5961-bff51c.mp4", thumb: "/products/gallery/accessories/thumbs/img-5961-bff51c.jpg", alt: "Custom accessories by Print & Craft Co." },
@@ -277,7 +254,6 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/20131108-102928-8e9b0c.jpg", thumb: "/products/gallery/signs/thumbs/20131108-102928-8e9b0c.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/20131108-102940-fc173c.jpg", thumb: "/products/gallery/signs/thumbs/20131108-102940-fc173c.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/20131108-103005-1a097d.jpg", thumb: "/products/gallery/signs/thumbs/20131108-103005-1a097d.jpg", alt: "Custom signs by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/signs/img-0001-2ad6de.jpg", thumb: "/products/gallery/signs/thumbs/img-0001-2ad6de.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0002-2e2241.jpg", thumb: "/products/gallery/signs/thumbs/img-0002-2e2241.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0024-602467.jpg", thumb: "/products/gallery/signs/thumbs/img-0024-602467.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0054-91b1bb.jpg", thumb: "/products/gallery/signs/thumbs/img-0054-91b1bb.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -287,6 +263,7 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-0081-89e76e.jpg", thumb: "/products/gallery/signs/thumbs/img-0081-89e76e.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0082-a06406.jpg", thumb: "/products/gallery/signs/thumbs/img-0082-a06406.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0083-2dcdb1.jpg", thumb: "/products/gallery/signs/thumbs/img-0083-2dcdb1.jpg", alt: "Custom signs by Print & Craft Co." },
+        { type: "image", src: "/products/gallery/signs/img-0097-86b1a7.jpg", thumb: "/products/gallery/signs/thumbs/img-0097-86b1a7.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0123-36d443.jpg", thumb: "/products/gallery/signs/thumbs/img-0123-36d443.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0124-cdedf4.jpg", thumb: "/products/gallery/signs/thumbs/img-0124-cdedf4.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0155-d80863.jpg", thumb: "/products/gallery/signs/thumbs/img-0155-d80863.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -294,6 +271,7 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-0157-a21a19.jpg", thumb: "/products/gallery/signs/thumbs/img-0157-a21a19.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0158-ea95b5.jpg", thumb: "/products/gallery/signs/thumbs/img-0158-ea95b5.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0236-81ab9d.jpg", thumb: "/products/gallery/signs/thumbs/img-0236-81ab9d.jpg", alt: "Custom signs by Print & Craft Co." },
+        { type: "image", src: "/products/gallery/signs/img-0296-40ddab.jpg", thumb: "/products/gallery/signs/thumbs/img-0296-40ddab.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0305-1fe275.jpg", thumb: "/products/gallery/signs/thumbs/img-0305-1fe275.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0306-6e9ce3.jpg", thumb: "/products/gallery/signs/thumbs/img-0306-6e9ce3.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0307-e94266.jpg", thumb: "/products/gallery/signs/thumbs/img-0307-e94266.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -307,7 +285,6 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-0358-695fb9.jpg", thumb: "/products/gallery/signs/thumbs/img-0358-695fb9.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0359-a48d20.jpg", thumb: "/products/gallery/signs/thumbs/img-0359-a48d20.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0360-a6ef16.jpg", thumb: "/products/gallery/signs/thumbs/img-0360-a6ef16.jpg", alt: "Custom signs by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/signs/img-0361-de95eb.jpg", thumb: "/products/gallery/signs/thumbs/img-0361-de95eb.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0362-4871d7.jpg", thumb: "/products/gallery/signs/thumbs/img-0362-4871d7.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0368-76e102.jpg", thumb: "/products/gallery/signs/thumbs/img-0368-76e102.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0372-65eb8c.jpg", thumb: "/products/gallery/signs/thumbs/img-0372-65eb8c.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -363,6 +340,7 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-0645-e43914.jpg", thumb: "/products/gallery/signs/thumbs/img-0645-e43914.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0657-33480c.jpg", thumb: "/products/gallery/signs/thumbs/img-0657-33480c.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0658-33480c.jpg", thumb: "/products/gallery/signs/thumbs/img-0658-33480c.jpg", alt: "Custom signs by Print & Craft Co." },
+        { type: "image", src: "/products/gallery/signs/img-0666-31ac0b.jpg", thumb: "/products/gallery/signs/thumbs/img-0666-31ac0b.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0672-1b297b.jpg", thumb: "/products/gallery/signs/thumbs/img-0672-1b297b.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0693-6bede3.jpg", thumb: "/products/gallery/signs/thumbs/img-0693-6bede3.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0697-d52aa2.jpg", thumb: "/products/gallery/signs/thumbs/img-0697-d52aa2.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -379,6 +357,7 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-0715-f360b5.jpg", thumb: "/products/gallery/signs/thumbs/img-0715-f360b5.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0716-5ac8b3.jpg", thumb: "/products/gallery/signs/thumbs/img-0716-5ac8b3.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0717-2c360d.jpg", thumb: "/products/gallery/signs/thumbs/img-0717-2c360d.jpg", alt: "Custom signs by Print & Craft Co." },
+        { type: "image", src: "/products/gallery/signs/img-0738-31dfa4.jpg", thumb: "/products/gallery/signs/thumbs/img-0738-31dfa4.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0750-d637a0.jpg", thumb: "/products/gallery/signs/thumbs/img-0750-d637a0.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0764-d516b5.jpg", thumb: "/products/gallery/signs/thumbs/img-0764-d516b5.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0770-7472a8.jpg", thumb: "/products/gallery/signs/thumbs/img-0770-7472a8.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -399,10 +378,8 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-0977-a9ff0e.jpg", thumb: "/products/gallery/signs/thumbs/img-0977-a9ff0e.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0978-09f2f9.jpg", thumb: "/products/gallery/signs/thumbs/img-0978-09f2f9.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0979-d1469d.jpg", thumb: "/products/gallery/signs/thumbs/img-0979-d1469d.jpg", alt: "Custom signs by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/signs/img-0980-24d5d7.jpg", thumb: "/products/gallery/signs/thumbs/img-0980-24d5d7.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0980-6e24c4.jpg", thumb: "/products/gallery/signs/thumbs/img-0980-6e24c4.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0983-copy-2197f4.jpg", thumb: "/products/gallery/signs/thumbs/img-0983-copy-2197f4.jpg", alt: "Custom signs by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/signs/img-0983-b6ef09.jpg", thumb: "/products/gallery/signs/thumbs/img-0983-b6ef09.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0984-a68c1f.jpg", thumb: "/products/gallery/signs/thumbs/img-0984-a68c1f.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0985-1de8b5.jpg", thumb: "/products/gallery/signs/thumbs/img-0985-1de8b5.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-0992-39e208.jpg", thumb: "/products/gallery/signs/thumbs/img-0992-39e208.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -416,6 +393,7 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-1015-2-9d1030.jpg", thumb: "/products/gallery/signs/thumbs/img-1015-2-9d1030.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1016-2-d0412e.jpg", thumb: "/products/gallery/signs/thumbs/img-1016-2-d0412e.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1017-2-070df0.jpg", thumb: "/products/gallery/signs/thumbs/img-1017-2-070df0.jpg", alt: "Custom signs by Print & Craft Co." },
+        { type: "image", src: "/products/gallery/signs/img-1018-ca868d.jpg", thumb: "/products/gallery/signs/thumbs/img-1018-ca868d.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1019-2-c5e590.jpg", thumb: "/products/gallery/signs/thumbs/img-1019-2-c5e590.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1019-238e89.jpg", thumb: "/products/gallery/signs/thumbs/img-1019-238e89.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1020-2-8f114e.jpg", thumb: "/products/gallery/signs/thumbs/img-1020-2-8f114e.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -437,6 +415,7 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-1033-855fae.jpg", thumb: "/products/gallery/signs/thumbs/img-1033-855fae.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1034-2-eb5d70.jpg", thumb: "/products/gallery/signs/thumbs/img-1034-2-eb5d70.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1034-eb5d70.jpg", thumb: "/products/gallery/signs/thumbs/img-1034-eb5d70.jpg", alt: "Custom signs by Print & Craft Co." },
+        { type: "image", src: "/products/gallery/signs/img-1036-a4db05.jpg", thumb: "/products/gallery/signs/thumbs/img-1036-a4db05.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1047-aedd6a.jpg", thumb: "/products/gallery/signs/thumbs/img-1047-aedd6a.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1048-66ba8a.jpg", thumb: "/products/gallery/signs/thumbs/img-1048-66ba8a.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1049-0671b5.jpg", thumb: "/products/gallery/signs/thumbs/img-1049-0671b5.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -444,7 +423,6 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-1055-2-52abf7.jpg", thumb: "/products/gallery/signs/thumbs/img-1055-2-52abf7.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1055-52abf7.jpg", thumb: "/products/gallery/signs/thumbs/img-1055-52abf7.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1067-9d8fdc.jpg", thumb: "/products/gallery/signs/thumbs/img-1067-9d8fdc.jpg", alt: "Custom signs by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/signs/img-1073-2-323d29.jpg", thumb: "/products/gallery/signs/thumbs/img-1073-2-323d29.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1074-2-1d2424.jpg", thumb: "/products/gallery/signs/thumbs/img-1074-2-1d2424.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1075-2-efcec3.jpg", thumb: "/products/gallery/signs/thumbs/img-1075-2-efcec3.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1076-2-f1e363.jpg", thumb: "/products/gallery/signs/thumbs/img-1076-2-f1e363.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -455,9 +433,6 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-1083-2-d376d8.jpg", thumb: "/products/gallery/signs/thumbs/img-1083-2-d376d8.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1083-d376d8.jpg", thumb: "/products/gallery/signs/thumbs/img-1083-d376d8.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1084-a818d3.jpg", thumb: "/products/gallery/signs/thumbs/img-1084-a818d3.jpg", alt: "Custom signs by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/signs/img-1093-2-385d46.jpg", thumb: "/products/gallery/signs/thumbs/img-1093-2-385d46.jpg", alt: "Custom signs by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/signs/img-1094-2-2c544b.jpg", thumb: "/products/gallery/signs/thumbs/img-1094-2-2c544b.jpg", alt: "Custom signs by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/signs/img-1095-2-1ece3b.jpg", thumb: "/products/gallery/signs/thumbs/img-1095-2-1ece3b.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1097-8ed1a4.jpg", thumb: "/products/gallery/signs/thumbs/img-1097-8ed1a4.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1098-2-fefa20.jpg", thumb: "/products/gallery/signs/thumbs/img-1098-2-fefa20.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1098-a66d29.jpg", thumb: "/products/gallery/signs/thumbs/img-1098-a66d29.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -536,6 +511,7 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-1749-6f8720.jpg", thumb: "/products/gallery/signs/thumbs/img-1749-6f8720.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1763-2-6c25f6.jpg", thumb: "/products/gallery/signs/thumbs/img-1763-2-6c25f6.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1763-6c25f6.jpg", thumb: "/products/gallery/signs/thumbs/img-1763-6c25f6.jpg", alt: "Custom signs by Print & Craft Co." },
+        { type: "image", src: "/products/gallery/signs/img-1770-copy-3aab79.jpg", thumb: "/products/gallery/signs/thumbs/img-1770-copy-3aab79.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1770-3aab79.jpg", thumb: "/products/gallery/signs/thumbs/img-1770-3aab79.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1771-7f70a4.jpg", thumb: "/products/gallery/signs/thumbs/img-1771-7f70a4.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1773-2-e9b88e.jpg", thumb: "/products/gallery/signs/thumbs/img-1773-2-e9b88e.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -573,7 +549,6 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-1930-36207b.jpg", thumb: "/products/gallery/signs/thumbs/img-1930-36207b.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1945-616670.jpg", thumb: "/products/gallery/signs/thumbs/img-1945-616670.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1963-2ee38d.jpg", thumb: "/products/gallery/signs/thumbs/img-1963-2ee38d.jpg", alt: "Custom signs by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/signs/img-1964-278468.jpg", thumb: "/products/gallery/signs/thumbs/img-1964-278468.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1968-93d667.jpg", thumb: "/products/gallery/signs/thumbs/img-1968-93d667.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1970-6979f5.jpg", thumb: "/products/gallery/signs/thumbs/img-1970-6979f5.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-1981-a52d2b.jpg", thumb: "/products/gallery/signs/thumbs/img-1981-a52d2b.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -644,6 +619,7 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/signs/img-4371-2e86aa.jpg", thumb: "/products/gallery/signs/thumbs/img-4371-2e86aa.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-4372-bbd08d.jpg", thumb: "/products/gallery/signs/thumbs/img-4372-bbd08d.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-4373-7bfd54.jpg", thumb: "/products/gallery/signs/thumbs/img-4373-7bfd54.jpg", alt: "Custom signs by Print & Craft Co." },
+        { type: "image", src: "/products/gallery/signs/img-4435-714925.jpg", thumb: "/products/gallery/signs/thumbs/img-4435-714925.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-4455-bc6e36.jpg", thumb: "/products/gallery/signs/thumbs/img-4455-bc6e36.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-4458-059789.jpg", thumb: "/products/gallery/signs/thumbs/img-4458-059789.jpg", alt: "Custom signs by Print & Craft Co." },
         { type: "image", src: "/products/gallery/signs/img-4749-ac7d0e.jpg", thumb: "/products/gallery/signs/thumbs/img-4749-ac7d0e.jpg", alt: "Custom signs by Print & Craft Co." },
@@ -672,36 +648,18 @@ const GALLERY_MANIFEST = {
     ],
     prints: [
         { type: "image", src: "/products/gallery/prints/03-psd-88-7-back-rgb-8-2017-02-18-00-50--5267c8.jpg", thumb: "/products/gallery/prints/thumbs/03-psd-88-7-back-rgb-8-2017-02-18-00-50--5267c8.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/04-psd-40-3-rgb-8-2017-05-06-16-01-00-6eb83a.jpg", thumb: "/products/gallery/prints/thumbs/04-psd-40-3-rgb-8-2017-05-06-16-01-00-6eb83a.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/07-psd-107-rgb-8-2017-02-17-23-37-36-50599d.jpg", thumb: "/products/gallery/prints/thumbs/07-psd-107-rgb-8-2017-02-17-23-37-36-50599d.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/artisan-club-truck-sample33333-0827a7.jpg", thumb: "/products/gallery/prints/thumbs/artisan-club-truck-sample33333-0827a7.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/bdyy5588-a87c6c.jpg", thumb: "/products/gallery/prints/thumbs/bdyy5588-a87c6c.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/borrachos-yeti-cooler-ai-33-33-cmyk-prev-6a8c81.jpg", thumb: "/products/gallery/prints/thumbs/borrachos-yeti-cooler-ai-33-33-cmyk-prev-6a8c81.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/bvqd9220-d2ac66.jpg", thumb: "/products/gallery/prints/thumbs/bvqd9220-d2ac66.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/bwyd2642-f2538b.jpg", thumb: "/products/gallery/prints/thumbs/bwyd2642-f2538b.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/dmut7920-8fda12.jpg", thumb: "/products/gallery/prints/thumbs/dmut7920-8fda12.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/file-sep-12-1-27-45-pm-96db8a.jpg", thumb: "/products/gallery/prints/thumbs/file-sep-12-1-27-45-pm-96db8a.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/govn3749-bc0300.jpg", thumb: "/products/gallery/prints/thumbs/govn3749-bc0300.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/hefw9929-387228.jpg", thumb: "/products/gallery/prints/thumbs/hefw9929-387228.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/img-0097-86b1a7.jpg", thumb: "/products/gallery/prints/thumbs/img-0097-86b1a7.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/img-0296-40ddab.jpg", thumb: "/products/gallery/prints/thumbs/img-0296-40ddab.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/img-0666-31ac0b.jpg", thumb: "/products/gallery/prints/thumbs/img-0666-31ac0b.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/img-0738-31dfa4.jpg", thumb: "/products/gallery/prints/thumbs/img-0738-31dfa4.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/img-1008-f8ba2b.jpg", thumb: "/products/gallery/prints/thumbs/img-1008-f8ba2b.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/img-1018-ca868d.jpg", thumb: "/products/gallery/prints/thumbs/img-1018-ca868d.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/img-1036-a4db05.jpg", thumb: "/products/gallery/prints/thumbs/img-1036-a4db05.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/img-1157-8b44ed.jpg", thumb: "/products/gallery/prints/thumbs/img-1157-8b44ed.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/img-1754-f0f467.jpg", thumb: "/products/gallery/prints/thumbs/img-1754-f0f467.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/img-1770-3aab79.jpg", thumb: "/products/gallery/prints/thumbs/img-1770-3aab79.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/img-2403-613737.jpg", thumb: "/products/gallery/prints/thumbs/img-2403-613737.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/img-2544-452e72.jpg", thumb: "/products/gallery/prints/thumbs/img-2544-452e72.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/img-4435-714925.jpg", thumb: "/products/gallery/prints/thumbs/img-4435-714925.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/img-6755-01271b.jpg", thumb: "/products/gallery/prints/thumbs/img-6755-01271b.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-1-side-p-7037f8.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-1-side-p-7037f8.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-1-side-p-99162b.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-1-side-p-99162b.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-1-side-p-820160.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-1-side-p-820160.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-1-side-p-276cf8.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-1-side-p-276cf8.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-1-side-p-8fda12.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-1-side-p-8fda12.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-1-side-p-1d4290.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-1-side-p-1d4290.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-recovere-5ab5d2.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-recovere-5ab5d2.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-psd-121--775017.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-psd-121--775017.jpg", alt: "Custom prints by Print & Craft Co." },
@@ -713,9 +671,7 @@ const GALLERY_MANIFEST = {
         { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-psd-67-7-dfa693.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-psd-67-7-dfa693.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-psd-72-y-545e4a.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-psd-72-y-545e4a.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-psd-73-2-3939d7.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-psd-73-2-3939d7.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-psd-73-2-d2ac66.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-psd-73-2-d2ac66.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-psd-73-2-9b91dd.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-psd-73-2-9b91dd.jpg", alt: "Custom prints by Print & Craft Co." },
-        { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-psd-73-2-bc0300.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-psd-73-2-bc0300.jpg", alt: "Custom prints by Print & Craft Co." },
         { type: "image", src: "/products/gallery/prints/realistic-business-card-mock-up-psd-73-2-b1ee59.jpg", thumb: "/products/gallery/prints/thumbs/realistic-business-card-mock-up-psd-73-2-b1ee59.jpg", alt: "Custom prints by Print & Craft Co." },
     ],
 };
@@ -902,6 +858,61 @@ const GALLERY_LABELS = { apparel: "Apparel", drinkware: "Drinkware", accessories
         if (e.key === "ArrowLeft") step(-1);
         if (e.key === "ArrowRight") step(1);
     });
+
+    /* ---------- hidden category (triple-click Drinkware, then password) ----------
+       The manifest lives at a URL derived from the password hash, so the page
+       holds no password and no pointer to the hidden content. */
+    const HIDDEN_CAT = "drinkware2", HIDDEN_LABEL = "Drinkware 2";
+
+    function addHiddenTabs() {
+        cats.push(HIDDEN_CAT);
+        GALLERY_LABELS[HIDDEN_CAT] = HIDDEN_LABEL;
+        tabs.appendChild(tabButton(HIDDEN_CAT, HIDDEN_LABEL));
+        const b = document.createElement("button");
+        b.className = "gallery-tab";
+        b.textContent = HIDDEN_LABEL;
+        b.dataset.cat = HIDDEN_CAT;
+        b.addEventListener("click", () => { lbCat = HIDDEN_CAT; lbIndex = 0; renderStage(); });
+        lbCats.appendChild(b);
+    }
+
+    async function unlockHidden(hex, show) {
+        try {
+            const res = await fetch("/products/gallery/" + HIDDEN_CAT + "/m-" + hex + ".json");
+            if (!res.ok) return false;
+            GALLERY_MANIFEST[HIDDEN_CAT] = await res.json();
+            addHiddenTabs();
+            sessionStorage.setItem("pnc_g2", hex);
+            if (show) { activeCat = HIDDEN_CAT; }
+            renderGrid();
+            return true;
+        } catch (e) { return false; }
+    }
+
+    async function pwToHex(pw) {
+        const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(pw));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 16);
+    }
+
+    let dwClicks = 0, dwTimer = null;
+    const dwTab = tabs.querySelector('.gallery-tab[data-cat="drinkware"]');
+    if (dwTab) dwTab.addEventListener("click", () => {
+        if (GALLERY_MANIFEST[HIDDEN_CAT]) return; // already unlocked
+        dwClicks++;
+        clearTimeout(dwTimer);
+        dwTimer = setTimeout(() => { dwClicks = 0; }, 700);
+        if (dwClicks >= 3) {
+            dwClicks = 0;
+            const pw = prompt("Password:");
+            if (!pw) return;
+            pwToHex(pw).then(hex => unlockHidden(hex, true)).then(ok => {
+                if (!ok) alert("Incorrect password.");
+            });
+        }
+    });
+
+    const savedHex = sessionStorage.getItem("pnc_g2");
+    if (savedHex) unlockHidden(savedHex, false);
 
     renderGrid();
 })();

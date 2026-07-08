@@ -13,7 +13,11 @@ For each category folder, this script:
   - removes outputs whose original no longer exists
   - regenerates GALLERY_MANIFEST inside docs/products/gallery.js
 
-Folders that don't match a category (e.g. "drinkware hidden") are ignored.
+"drinkware hidden" becomes the password-gated "drinkware2" category: its
+manifest is written to docs/products/gallery/drinkware2/m-<hash>.json where
+<hash> comes from the password in .gallery-password (gitignored, one line).
+The site unlocks it by triple-clicking the Drinkware tab. To change the
+password, edit .gallery-password and re-run this script.
 Display order = alphabetical original-filename order within each folder.
 
 Usage: python3 scripts/sync-gallery.py
@@ -34,8 +38,12 @@ GALLERY_JS = os.path.join(ROOT, "docs", "products", "gallery.js")
 # originals folder name -> gallery category key
 CATS = {"apparel": "apparel", "drinkware": "drinkware", "print": "prints",
         "signs": "signs", "accessories": "accessories"}
+# password-gated categories: folder -> key. Their manifest goes to a JSON file
+# named after the password hash instead of GALLERY_MANIFEST, so the page never
+# references it. Password lives in .gallery-password (gitignored).
+HIDDEN = {"drinkware hidden": "drinkware2"}
 LABEL = {"apparel": "Apparel", "drinkware": "Drinkware", "prints": "Prints",
-         "signs": "Signs", "accessories": "Accessories"}
+         "signs": "Signs", "accessories": "Accessories", "drinkware2": "Drinkware"}
 IMG_EXT = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".heic", ".tif", ".tiff", ".bmp"}
 VID_EXT = {".mov", ".mp4", ".m4v"}
 
@@ -53,7 +61,7 @@ def stable_name(path):
             h.update(chunk)
     return f"{slug}-{h.hexdigest()[:6]}"
 
-for folder, cat in CATS.items():
+for folder, cat in {**CATS, **HIDDEN}.items():
     srcdir = os.path.join(SRC, folder)
     outdir = os.path.join(DST, cat)
     os.makedirs(outdir, exist_ok=True)
@@ -126,6 +134,22 @@ for folder, cat in CATS.items():
             os.remove(old); removed += 1
     manifest[cat] = entries
     print(f"{cat}: {len(entries)} items ({new} new, {skipped} unchanged, {removed} removed)")
+
+# hidden categories: manifest goes to a JSON file named by the password hash
+pw_file = os.path.join(ROOT, ".gallery-password")
+if not os.path.exists(pw_file):
+    sys.exit("ERROR: .gallery-password not found (one line, the gallery password)")
+pw = open(pw_file).read().strip()
+digest = hashlib.sha256(pw.encode()).hexdigest()[:16]
+for cat in HIDDEN.values():
+    outdir = os.path.join(DST, cat)
+    for old in glob.glob(os.path.join(outdir, "m-*.json")):
+        os.remove(old)  # drop manifests for old passwords
+    entries = [{**e, "alt": f"Custom {LABEL[cat].lower()} by Print & Craft Co."}
+               for e in manifest.pop(cat)]
+    with open(os.path.join(outdir, f"m-{digest}.json"), "w") as fh:
+        json.dump(entries, fh)
+    print(f"{cat}: manifest -> {cat}/m-{digest}.json")
 
 # rewrite GALLERY_MANIFEST in gallery.js
 lines = ["const GALLERY_MANIFEST = {"]
