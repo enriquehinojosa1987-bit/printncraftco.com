@@ -136,6 +136,20 @@ body {
     border-radius: 50px;
     pointer-events: none;
 }
+.gallery-tile .tile-more {
+    position: absolute;
+    inset: 0;
+    background: rgba(17,17,17,0.65);
+    backdrop-filter: blur(3px);
+    color: var(--text-light);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
 .gallery-tile .play-badge {
     position: absolute;
     top: 50%; left: 50%;

@@ -526,13 +526,39 @@ const GALLERY_LABELS = { apparel: "Apparel", drinkware: "Drinkware", accessories
         return t;
     }
 
+    const GRID_MAX = 8; // 2 rows of 4 — click any tile to browse the rest in the lightbox
+
     function renderGrid() {
         tabs.querySelectorAll(".gallery-tab").forEach(b =>
             b.classList.toggle("active", b.dataset.cat === activeCat));
         grid.innerHTML = "";
-        const show = activeCat === "all" ? cats : [activeCat];
-        show.forEach(cat => GALLERY_MANIFEST[cat].forEach((item, i) =>
-            grid.appendChild(tile(cat, item, i))));
+        // build (cat, item, index) list; "All" interleaves categories for variety
+        let list = [];
+        let total = 0;
+        if (activeCat === "all") {
+            total = cats.reduce((s, c) => s + GALLERY_MANIFEST[c].length, 0);
+            for (let i = 0; list.length < GRID_MAX; i++) {
+                let added = false;
+                for (const c of cats) {
+                    if (i < GALLERY_MANIFEST[c].length && list.length < GRID_MAX) {
+                        list.push([c, GALLERY_MANIFEST[c][i], i]); added = true;
+                    }
+                }
+                if (!added) break;
+            }
+        } else {
+            total = GALLERY_MANIFEST[activeCat].length;
+            list = GALLERY_MANIFEST[activeCat].slice(0, GRID_MAX)
+                .map((item, i) => [activeCat, item, i]);
+        }
+        list.forEach(([cat, item, i], pos) => {
+            const t = tile(cat, item, i);
+            if (pos === list.length - 1 && total > GRID_MAX) {
+                t.insertAdjacentHTML("beforeend",
+                    '<span class="tile-more">+' + (total - GRID_MAX) + ' more</span>');
+            }
+            grid.appendChild(t);
+        });
     }
 
     /* ---------- lightbox ---------- */
