@@ -16,9 +16,9 @@
   "use strict";
 
   // ── CONFIG ────────────────────────────────────────────────────────────
-  var GHL_FORM_ID  = "REPLACE_WITH_FORM_ID";
+  var GHL_FORM_ID  = "xgjFuIVnZgzsLxfdN7fE";
   var GHL_FORM_URL = "https://links.scalesmartsoftware.com/widget/form/" + GHL_FORM_ID;
-  var FORM_HEIGHT  = 460;          // px; GHL's form_embed.js auto-adjusts after load
+  var FORM_HEIGHT  = 300;          // px initial floor; GHL's form_embed.js grows it to fit (incl. success message)
   var TIMED_DELAY  = 25000;        // show after 25s if exit-intent hasn't fired
   var ARM_EXIT_AFTER = 5000;       // don't arm exit-intent for the first 5s
   var SNOOZE_DAYS  = 7;            // don't re-show for this many days after shown/dismissed
