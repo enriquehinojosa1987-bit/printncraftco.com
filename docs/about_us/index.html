@@ -395,13 +395,72 @@ footer {
     align-items: stretch;
 }
 
-.map-container iframe {
-    width: 100%;
-    height: 100%;
+.nationwide-map {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     min-height: 450px;
-    border: none;
     border-radius: 12px;
-    background: #eee;
+    background: linear-gradient(160deg, #F4F8FE 0%, #EAF1FB 100%);
+    padding: 30px;
+    overflow: hidden;
+}
+
+.nationwide-map svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.nationwide-map .us-outline {
+    fill: #DCE7F5;
+    stroke: #188bf6;
+    stroke-width: 1.2;
+    stroke-linejoin: round;
+}
+
+.nationwide-map .reach-dots circle {
+    fill: #188bf6;
+    opacity: 0.35;
+}
+
+.nationwide-map .pin-dot {
+    fill: #E53935;
+}
+
+.nationwide-map .pin-pulse {
+    fill: #E53935;
+    opacity: 0.4;
+    transform-origin: 293.7px 357.2px;
+    animation: hqPulse 2s ease-out infinite;
+}
+
+@keyframes hqPulse {
+    0%   { transform: scale(0.6); opacity: 0.5; }
+    100% { transform: scale(2.6); opacity: 0; }
+}
+
+.map-caption {
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.4;
+}
+
+.map-caption strong {
+    display: block;
+    color: #111;
+    font-size: 1.15rem;
+}
+
+.map-caption span {
+    color: #188bf6;
+    font-weight: 600;
+    font-size: 1.15rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nationwide-map .pin-pulse { animation: none; }
 }
 
 .contact-info h2 {
@@ -439,8 +498,8 @@ footer {
     .founders-grid, .contact-grid {
         grid-template-columns: 1fr;
     }
-    .map-container iframe {
-        height: 350px;
+    .nationwide-map {
+        min-height: 320px;
     }
     .contact-details {
         grid-template-columns: 1fr;
@@ -777,13 +836,72 @@ footer {
     align-items: stretch;
 }
 
-.map-container iframe {
-    width: 100%;
-    height: 100%;
+.nationwide-map {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     min-height: 450px;
-    border: none;
     border-radius: 12px;
-    background: #eee;
+    background: linear-gradient(160deg, #F4F8FE 0%, #EAF1FB 100%);
+    padding: 30px;
+    overflow: hidden;
+}
+
+.nationwide-map svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.nationwide-map .us-outline {
+    fill: #DCE7F5;
+    stroke: #188bf6;
+    stroke-width: 1.2;
+    stroke-linejoin: round;
+}
+
+.nationwide-map .reach-dots circle {
+    fill: #188bf6;
+    opacity: 0.35;
+}
+
+.nationwide-map .pin-dot {
+    fill: #E53935;
+}
+
+.nationwide-map .pin-pulse {
+    fill: #E53935;
+    opacity: 0.4;
+    transform-origin: 293.7px 357.2px;
+    animation: hqPulse 2s ease-out infinite;
+}
+
+@keyframes hqPulse {
+    0%   { transform: scale(0.6); opacity: 0.5; }
+    100% { transform: scale(2.6); opacity: 0; }
+}
+
+.map-caption {
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.4;
+}
+
+.map-caption strong {
+    display: block;
+    color: #111;
+    font-size: 1.15rem;
+}
+
+.map-caption span {
+    color: #188bf6;
+    font-weight: 600;
+    font-size: 1.15rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nationwide-map .pin-pulse { animation: none; }
 }
 
 .contact-info h2 {
@@ -821,8 +939,8 @@ footer {
     .founders-grid, .contact-grid {
         grid-template-columns: 1fr;
     }
-    .map-container iframe {
-        height: 350px;
+    .nationwide-map {
+        min-height: 320px;
     }
     .contact-details {
         grid-template-columns: 1fr;
@@ -870,19 +988,19 @@ footer {
 <section class="founders-section">
     <div class="founders-grid">
         <div class="founder-card">
-            <img src="https://via.placeholder.com/400" alt="Alejandra" class="founder-image">
+            <img src="/about_us/alejandra.jpg" alt="Alejandra" class="founder-image">
             <h3>Alejandra</h3>
             <span class="founder-title">Co-Founder & Lead Designer</span>
             <p>With a sharp eye for detail and a passion for typography, Alejandra ensures every design looks flawless before it ever hits the press.</p>
-            <a href="/cdn-cgi/l/email-protection#b6d7dad3dcd7d8d2c4d7f6c6c4dfd8c2d8d5c4d7d0c2d5d998d5d9db" class="founder-email-link"><span class="__cf_email__" data-cfemail="a0c1ccc5cac1cec4d2c1e0d0d2c9ced4cec3d2c1c6d4c3cf8ec3cfcd">[email&#160;protected]</span></a>
+            <a href="mailto:lexycards@printncraftco.com" class="founder-email-link">lexycards@printncraftco.com</a>
         </div>
         
         <div class="founder-card">
-            <img src="https://via.placeholder.com/400" alt="Enrique" class="founder-image">
+            <img src="/about_us/enrique.jpg" alt="Enrique" class="founder-image">
             <h3>Enrique</h3>
             <span class="founder-title">Co-Founder & Production</span>
             <p>Enrique is the master of the machines. He manages the technical side of our high-fidelity sublimation process, ensuring colors pop and finishes are perfect.</p>
-            <a href="/cdn-cgi/l/email-protection#dcb9b2aeb5ada9b99cacaeb5b2a8b2bfaebdbaa8bfb3f2bfb3b1" class="founder-email-link"><span class="__cf_email__" data-cfemail="660308140f1713032616140f081208051407001205094805090b">[email&#160;protected]</span></a>
+            <a href="mailto:enrique@printncraftco.com" class="founder-email-link">enrique@printncraftco.com</a>
         </div>
     </div>
 </section>
@@ -891,8 +1009,30 @@ footer {
     <div class="contact-wrapper">
         <div class="contact-grid">
             
-            <div class="map-container">
-                <iframe src="https://maps.google.com/maps?q=McAllen,%20TX&t=&z=11&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="nationwide-map">
+                <svg viewBox="0 0 640 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of the United States showing Print &amp; Craft Co. ships nationwide from McAllen, Texas">
+                    <path class="us-outline" d="M329.9,11.7 L331.8,19.8 L335.1,22.4 L342.5,23.3 L353.3,25.6 L363.6,30.3 L372.1,28.3 L385.2,32.2 L388.6,32.1 L398.1,27.8 L408.1,33.2 L418.4,39.0 L427.0,44.0 L435.2,48.7 L436.3,52.7 L438.8,54.1 L438.1,55.6 L441.0,56.1 L443.0,54.5 L443.6,58.1 L445.7,60.4 L448.6,60.4 L450.2,62.2 L448.8,64.9 L459.9,71.9 L462.1,85.4 L464.3,98.4 L461.2,107.2 L456.2,115.4 L453.9,120.6 L453.6,122.1 L454.8,124.3 L458.4,126.6 L461.1,126.6 L473.4,118.6 L484.3,116.3 L498.2,108.9 L498.4,107.4 L497.4,102.8 L495.7,99.9 L500.5,97.5 L510.9,97.5 L520.6,97.5 L524.0,91.7 L525.3,90.5 L536.5,79.8 L541.3,77.1 L557.4,76.9 L577.0,76.9 L578.0,73.3 L581.4,72.5 L585.9,70.2 L589.7,63.4 L592.9,51.8 L601.0,40.6 L604.5,44.5 L611.6,42.0 L616.3,46.3 L616.3,66.6 L623.2,75.0 L625.1,79.9 L613.8,87.1 L602.9,92.3 L591.7,96.7 L586.1,105.5 L584.3,108.9 L584.2,116.8 L587.7,124.7 L592.1,125.0 L590.9,119.6 L594.1,122.9 L593.3,127.2 L586.1,129.6 L581.0,129.3 L573.2,131.9 L568.6,132.6 L562.4,133.4 L553.6,137.7 L569.2,134.9 L572.3,137.7 L557.5,142.2 L550.7,142.2 L551.0,140.4 L547.8,144.5 L550.9,145.2 L548.6,155.9 L540.9,167.4 L540.1,163.5 L537.8,162.8 L534.3,159.0 L536.5,167.1 L539.2,169.7 L539.3,175.4 L535.9,181.1 L529.9,193.0 L529.0,192.5 L532.3,182.3 L526.8,176.6 L525.6,164.2 L523.6,170.7 L525.8,180.1 L518.8,177.8 L526.1,182.6 L526.6,196.8 L529.6,197.8 L530.7,203.0 L532.2,217.9 L525.5,228.9 L514.5,233.4 L507.5,242.1 L502.2,243.0 L496.9,248.5 L495.4,253.5 L483.7,263.2 L477.8,270.3 L472.8,279.1 L471.1,289.7 L473.0,300.1 L476.5,312.8 L481.2,323.4 L481.3,329.8 L486.3,347.1 L486.0,357.1 L485.5,362.9 L482.9,372.0 L479.7,373.9 L474.5,372.1 L472.8,365.6 L468.8,362.1 L463.2,349.3 L458.3,337.9 L456.7,332.1 L458.8,322.2 L455.9,314.0 L447.6,301.5 L443.5,299.2 L432.8,306.0 L430.9,305.3 L425.7,298.3 L419.1,294.6 L407.1,296.5 L397.7,294.9 L389.6,295.9 L385.2,298.2 L387.2,302.2 L387.0,308.2 L389.2,311.2 L387.2,313.1 L383.3,310.9 L379.3,313.7 L371.6,313.3 L363.7,305.4 L354.5,307.3 L346.7,303.8 L340.2,304.9 L331.2,308.3 L321.6,319.4 L311.1,325.8 L305.3,332.9 L302.8,339.6 L302.7,349.9 L303.3,357.1 L305.3,362.1 L301.1,362.6 L293.6,359.3 L285.3,354.7 L282.4,347.7 L280.0,337.2 L273.8,328.8 L270.1,320.0 L264.8,309.8 L257.3,303.9 L248.7,304.2 L242.0,315.9 L233.2,311.5 L227.7,307.0 L225.1,298.8 L221.6,291.0 L215.3,284.4 L209.9,279.7 L206.0,274.4 L187.6,274.4 L187.6,280.6 L179.2,280.6 L158.1,280.7 L133.9,270.2 L117.9,263.0 L118.9,260.0 L105.5,261.7 L93.4,262.8 L91.6,255.2 L84.8,246.6 L79.8,244.8 L78.7,240.6 L72.7,239.8 L68.9,235.8 L59.1,234.3 L56.4,231.9 L55.1,223.7 L44.8,208.8 L36.0,188.1 L36.4,184.6 L31.7,179.7 L23.5,167.2 L22.0,155.0 L16.4,146.9 L18.7,134.6 L18.3,121.8 L15.0,110.3 L19.1,96.3 L20.4,82.8 L21.7,69.3 L19.8,49.3 L16.4,36.5 L13.3,29.6 L14.6,26.7 L29.9,31.8 L35.6,45.8 L38.2,41.9 L36.5,29.7 L32.9,17.5 L63.0,17.5 L94.5,17.5 L104.9,17.5 L137.2,17.5 L168.4,17.5 L200.2,17.5 L232.1,17.5 L268.1,17.5 L304.3,17.4 L326.3,17.5 L326.3,11.7 L329.9,11.7Z"/>
+                    <g class="reach-dots">
+                        <circle cx="550.5" cy="141.1" r="3"/>
+                        <circle cx="82.1" cy="241.0" r="3"/>
+                        <circle cx="406.4" cy="123.3" r="3"/>
+                        <circle cx="38.6" cy="38.3" r="3"/>
+                        <circle cx="222.0" cy="156.0" r="3"/>
+                        <circle cx="484.8" cy="363.2" r="3"/>
+                        <circle cx="440.3" cy="245.5" r="3"/>
+                        <circle cx="308.9" cy="258.9" r="3"/>
+                        <circle cx="346.0" cy="77.1" r="3"/>
+                        <circle cx="581.2" cy="115.8" r="3"/>
+                    </g>
+                    <g class="hq-pin">
+                        <circle class="pin-pulse" cx="293.7" cy="357.2" r="8"/>
+                        <circle class="pin-dot" cx="293.7" cy="357.2" r="5"/>
+                    </g>
+                </svg>
+                <div class="map-caption">
+                    <strong>Crafted in South Texas.</strong>
+                    <span>Shipped to all 50 states.</span>
+                </div>
             </div>
 
             <div class="contact-info">
@@ -906,7 +1046,7 @@ footer {
                     </div>
                     <div>
                         <strong>Contact:</strong>
-                        <p><a href="/cdn-cgi/l/email-protection#16757978627775625666647f786278756477706275793875797b" style="color: #111; font-weight: 500; text-decoration: none;"><span class="__cf_email__" data-cfemail="9cfff3f2e8fdffe8dceceef5f2e8f2ffeefdfae8fff3b2fff3f1">[email&#160;protected]</span></a></p>
+                        <p><a href="mailto:shop@printncraftco.com" style="color: #111; font-weight: 500; text-decoration: none;">shop@printncraftco.com</a></p>
                     </div>
                 </div>
 
